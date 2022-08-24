@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+var rocket = preload("res://scenes/projectile/Rocket.tscn")
+
 export(float) var BARREL_MOVE_SPEED = 10.0
 export(float) var DRIVING_SPEED = 50.0
 export(float) var ACCELERATION = 15.0
@@ -7,6 +9,7 @@ export(float) var DECELERATION = 10.0
 export(float) var GRAVITY = 98.0
 
 onready var barrel = $Barrel
+onready var base = $Base
 
 var velocity: Vector2
 var target_angle: float = 0.0
@@ -38,3 +41,13 @@ func _physics_process(delta):
 		rotation = get_floor_angle(Vector2.UP)
 	
 	move_and_slide(velocity, Vector2.UP)
+	
+	
+	if Input.is_action_just_pressed("fire"):
+		var node = rocket.instance()
+		
+		node.velocity = Vector2.RIGHT
+		node.position = Vector2.RIGHT * 30
+		node.terrain = get_node("../TerrainManager")
+		
+		add_child(node)

@@ -13,10 +13,11 @@ script = ExtResource( 1 )
 
 [node name="Polygon2D" type="Polygon2D" parent="TerrainManager"]
 texture = ExtResource( 3 )
-polygon = PoolVector2Array( 172, 76, 97, 307, 346, 488, 803, 466, 878, 201, 632, 101 )
+polygon = PoolVector2Array( 143, 85, 336, 89, 331, 170, 344, 251, 389, 258, 410, 209, 423, 150, 431, 110, 527, 105, 668, 155, 757, 214, 767, 294, 748, 391, 552, 455, 389, 473, 219, 457, 89, 400, 81, 207 )
 
 [node name="RigidBody2D" type="RigidBody2D" parent="."]
 position = Vector2( 402, 14 )
+mode = 1
 contacts_reported = 1
 contact_monitor = true
 script = ExtResource( 4 )
