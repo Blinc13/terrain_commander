@@ -44,10 +44,16 @@ func _physics_process(delta):
 	
 	
 	if Input.is_action_just_pressed("fire"):
-		var node = rocket.instance()
-		
-		node.velocity = Vector2.RIGHT
-		node.position = Vector2.RIGHT * 30
-		node.terrain = get_node("../TerrainManager")
-		
-		add_child(node)
+		fire()
+
+func fire():
+	var node = rocket.instance()
+	
+	var angle = barrel.global_rotation
+	var dir = Vector2(sin(angle), cos(angle)).rotated(-PI/2)
+	
+	node.velocity = dir
+	node.position = position + dir * 15
+	node.terrain = get_node("../TerrainManager")
+	
+	get_parent().add_child(node)
