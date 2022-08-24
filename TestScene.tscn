@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://src/objects/terrain_manager.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
 [ext_resource path="res://assets/textures/terrain/terrain.png" type="Texture" id=3]
 [ext_resource path="res://tmp.gd" type="Script" id=4]
+[ext_resource path="res://scenes/units/Player.tscn" type="PackedScene" id=5]
 
 [node name="Node2D" type="Node2D"]
 
@@ -29,5 +30,8 @@ polygons = [ PoolIntArray( 0, 1, 2, 3, 4 ) ]
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="RigidBody2D"]
 scale = Vector2( 0.5, 0.5 )
 polygon = PoolVector2Array( 32, -32, 32, 32, -32, 32, -32, -32, 31, -32 )
+
+[node name="Player" parent="." instance=ExtResource( 5 )]
+position = Vector2( 257, 57 )
 
 [connection signal="body_entered" from="RigidBody2D" to="RigidBody2D" method="_on_RigidBody2D_body_entered"]
