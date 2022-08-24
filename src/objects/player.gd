@@ -21,11 +21,7 @@ func _input(event):
 		target_angle = clamp(p, -PI/2, PI/2)
 
 func _physics_process(delta):
-	var weight = abs(target_angle - barrel.rotation) / BARREL_MOVE_SPEED
-	var angle = lerp_angle(barrel.rotation, target_angle, weight)
-	
-	barrel.rotation = angle
-	
+	calculate_barrel_angle()
 	
 	var input = Input.get_vector("right", "left", "up", "down")
 	
@@ -46,11 +42,17 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("fire"):
 		fire()
 
+func calculate_barrel_angle():
+	var weight = abs(target_angle - barrel.rotation) / BARREL_MOVE_SPEED
+	var angle = lerp_angle(barrel.rotation, target_angle, weight)
+	
+	barrel.rotation = angle
+
 func fire():
 	var node = rocket.instance()
 	
 	var angle = barrel.global_rotation
-	var dir = Vector2(sin(angle), cos(angle)).rotated(-PI/2)
+	var dir = Vector2(cos(angle), sin(angle)).rotated(-PI/2)
 	
 	node.velocity = dir
 	node.position = position + dir * 15

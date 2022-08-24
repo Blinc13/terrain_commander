@@ -7,7 +7,7 @@ func generate_circle(radius: float) -> PoolVector2Array:
 	for x in range(0, 380, 24):
 		var angle = deg2rad(float(x))
 		
-		var vertex = Vector2(sin(angle), cos(angle)) * radius
+		var vertex = Vector2(cos(angle), sin(angle)) * radius
 		
 		output.push_back(vertex)
 	
