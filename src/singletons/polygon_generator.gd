@@ -1,7 +1,7 @@
 extends Node
 
 
-func generate_circle(radius: float) -> PoolVector2Array:
+static func generate_circle(radius: float) -> PoolVector2Array:
 	var output = PoolVector2Array()
 	
 	for x in range(0, 380, 24):

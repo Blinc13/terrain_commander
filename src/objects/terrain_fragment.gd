@@ -2,7 +2,6 @@ extends StaticBody2D
 
 class_name TerrainFragment
 
-
 class FragmentParameters:
 	var texture: Texture
 	var material: Material
@@ -10,6 +9,7 @@ class FragmentParameters:
 	func _init(tex: Texture, mat: Material):
 		texture = tex
 		material = mat
+
 
 var pol: Polygon2D
 var col: CollisionPolygon2D

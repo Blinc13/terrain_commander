@@ -9,7 +9,7 @@ func _physics_process(delta):
 	var colision = move_and_collide(velocity)
 	
 	if colision:
-		var polygon = PolygonGenerator.generate_circle(56)
+		var polygon = PolygonGenerator.generate_circle(25)
 		
 		terrain.cut_of(polygon, colision.collider, global_position)
 		queue_free()

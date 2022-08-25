@@ -1,17 +1,13 @@
-extends KinematicBody2D
+#TODO: Add another component to movement(because now it is bagy)
+extends RigidBody2D
 
 var rocket = preload("res://scenes/projectile/Rocket.tscn")
 
 export(float) var BARREL_MOVE_SPEED = 10.0
-export(float) var DRIVING_SPEED = 50.0
 export(float) var ACCELERATION = 15.0
-export(float) var DECELERATION = 10.0
-export(float) var GRAVITY = 98.0
 
 onready var barrel = $Barrel
-onready var base = $Base
 
-var velocity: Vector2
 var target_angle: float = 0.0
 
 func _input(event):
@@ -23,24 +19,23 @@ func _input(event):
 func _physics_process(delta):
 	calculate_barrel_angle()
 	
-	var input = Input.get_vector("right", "left", "up", "down")
-	
-	if input.x != 0:
-		velocity.x = clamp(velocity.x + (input.x * ACCELERATION * delta), -DRIVING_SPEED, DRIVING_SPEED)
-	else:
-		velocity.x -= clamp(velocity.x, -1, 1) * DECELERATION * delta
-	
-	if !self.is_on_floor():
-		velocity.y += GRAVITY * delta
-	else:
-		velocity.y = 0
-		rotation = get_floor_angle(Vector2.UP)
-	
-	move_and_slide(velocity, Vector2.UP)
-	
-	
 	if Input.is_action_just_pressed("fire"):
 		fire()
+
+func _integrate_forces(state):
+	var input = Input.get_vector("left", "right", "up", "down")
+	
+	if state.get_contact_count() > 0:
+		var normal = position.direction_to(state.get_contact_local_position(0))
+		var angle = Vector2(cos(rotation), sin(rotation)).dot(normal)
+		
+		# If contact point is under the tank, apply impulse
+		if abs(angle) < 0.69:
+			var move_dir = input.rotated(normal.angle() + PI/2)
+			
+			state.apply_impulse(Vector2.DOWN * 5, move_dir * ACCELERATION)
+
+
 
 func calculate_barrel_angle():
 	var weight = abs(target_angle - barrel.rotation) / BARREL_MOVE_SPEED
@@ -59,3 +54,4 @@ func fire():
 	node.terrain = get_node("../TerrainManager")
 	
 	get_parent().add_child(node)
+
