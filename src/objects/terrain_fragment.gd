@@ -30,6 +30,11 @@ func _init(polygon: PoolVector2Array, params: FragmentParameters):
 func clip_polygon(polygon: PoolVector2Array):
 	var poly = Geometry.clip_polygons_2d(pol.polygon, polygon)
 	
+	if poly.size() == 0:
+		queue_free()
+		
+		return
+	
 	pol.set_deferred("polygon", poly[0])
 	col.set_deferred("polygon", poly[0])
 	
