@@ -50,9 +50,8 @@ func fire():
 	var angle = barrel.global_rotation
 	var dir = Vector2(cos(angle), sin(angle)).rotated(-PI/2)
 	
-	node.velocity = dir
-	node.position = position + dir * 15
-	node.terrain = get_node("../TerrainManager")
+	var node_params = Projectile.Parameters.new(position + dir * 15, get_global_mouse_position())
+	node.set_parameters(node_params)
 	
 	get_parent().add_child(node)
 

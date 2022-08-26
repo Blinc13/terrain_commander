@@ -23,8 +23,11 @@ func _ready():
 		var child = get_child(x)
 		
 		if child is Polygon2D:
-			var params = TerrainFragment.FragmentParameters.new(child.texture, child.material)
+			var params = TerrainFragment.Parameters.new(child.texture, child.material)
 			var new_child = TerrainFragment.new(child.polygon, params)
 			
 			add_child(new_child)
 			child.queue_free()
+
+func _init():
+	BaseNodes.manager = self
