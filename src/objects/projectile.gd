@@ -10,7 +10,7 @@ class Parameters:
 		s_pos = start_pos
 		t_pos = target_pos
 
-const MAX_DISTANCE: float = 300.0
+const FIRE_ENERGY: float = 300.0
 
 var terrain = BaseNodes.manager
 var velocity: Vector2
@@ -21,12 +21,7 @@ func set_parameters(params: Parameters):
 	start_pos = params.s_pos
 	target = params.t_pos
 	
-	var distance = start_pos-target
-	
-	var needed_y = MAX_DISTANCE - abs(distance.x)
-	var needed_x = MAX_DISTANCE - needed_y
-	
-	velocity = Vector2(needed_x, -needed_y) / 2
+	velocity = calculate_velocity(start_pos, target, FIRE_ENERGY)
 	
 	position = start_pos
 
@@ -39,3 +34,11 @@ func _physics_process(delta):
 		
 		terrain.cut_of(polygon, colision.collider, global_position)
 		queue_free()
+
+static func calculate_velocity(start_pos: Vector2, target_pos: Vector2, energy: float):
+	var distance = start_pos.x - target_pos.x
+	
+	var needed_y = energy - abs(distance)
+	var needed_x = (energy - needed_y) * (distance / abs(distance))
+	
+	return Vector2(-needed_x, -needed_y) / 2

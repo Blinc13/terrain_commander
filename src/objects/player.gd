@@ -12,10 +12,9 @@ var target_angle: float = 0.0
 
 func _input(event):
 	if event is InputEventMouseMotion:
-		target = get_local_mouse_position()
-		var p = Vector2.UP.angle_to(target.normalized())
+		target = get_global_mouse_position()
 		
-		target_angle = clamp(p, -PI/2, PI/2)
+		target_angle = Projectile.calculate_velocity(position, get_global_mouse_position(), Projectile.FIRE_ENERGY).angle() + PI/2
 
 func _physics_process(delta):
 	calculate_barrel_angle()
@@ -50,7 +49,7 @@ func fire():
 	var angle = barrel.global_rotation
 	var dir = Vector2(cos(angle), sin(angle)).rotated(-PI/2)
 	
-	var node_params = Projectile.Parameters.new(position + dir * 15, get_global_mouse_position())
+	var node_params = Projectile.Parameters.new(position + dir * 15, target)
 	node.set_parameters(node_params)
 	
 	get_parent().add_child(node)
