@@ -1,4 +1,3 @@
-#TODO: Add another component to movement(because now it is bagy)
 extends RigidBody2D
 
 var rocket = preload("res://scenes/projectile/Rocket.tscn")
@@ -8,11 +7,13 @@ export(float) var ACCELERATION = 15.0
 
 onready var barrel = $Barrel
 
+var target: Vector2
 var target_angle: float = 0.0
 
 func _input(event):
 	if event is InputEventMouseMotion:
-		var p = Vector2.UP.angle_to(get_local_mouse_position().normalized())
+		target = get_local_mouse_position()
+		var p = Vector2.UP.angle_to(target.normalized())
 		
 		target_angle = clamp(p, -PI/2, PI/2)
 
