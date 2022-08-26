@@ -38,6 +38,7 @@ config/icon="res://icon.png"
 [autoload]
 
 PolygonGenerator="*res://src/singletons/polygon_generator.gd"
+BaseNodes="*res://src/singletons/base_nodes.gd"
 
 [display]
 

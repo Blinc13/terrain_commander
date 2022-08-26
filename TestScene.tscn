@@ -1,9 +1,7 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://src/objects/terrain_manager.gd" type="Script" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
 [ext_resource path="res://assets/textures/terrain/terrain.png" type="Texture" id=3]
-[ext_resource path="res://tmp.gd" type="Script" id=4]
 [ext_resource path="res://scenes/units/Player.tscn" type="PackedScene" id=5]
 
 [node name="Node2D" type="Node2D"]
@@ -15,26 +13,7 @@ script = ExtResource( 1 )
 texture = ExtResource( 3 )
 polygon = PoolVector2Array( 68, 105, 76, 14, 113, -26, 121, 17, 118, 61, 105, 97, 148, 107, 179, 128, 231, 135, 284, 121, 301, 157, 296, 193, 299, 238, 319, 268, 353, 275, 374, 230, 386, 174, 397, 126, 435, 127, 476, 152, 486, 193, 498, 262, 496, 308, 470, 353, 401, 401, 296, 414, 160, 386, 96, 368, 49, 332, 32, 304, 4, 243, 8, 164, 23, 128 )
 
-[node name="RigidBody2D" type="RigidBody2D" parent="."]
-position = Vector2( 402, 14 )
-mode = 1
-contacts_reported = 1
-contact_monitor = true
-script = ExtResource( 4 )
-
-[node name="Sprite" type="Polygon2D" parent="RigidBody2D"]
-texture = ExtResource( 2 )
-polygon = PoolVector2Array( 32, -32, 32, 32, -32, 32, -32, -32, 31, -32 )
-uv = PoolVector2Array( 64, 0, 64, 64, 0, 64, 0, 0, 63, 0 )
-polygons = [ PoolIntArray( 0, 1, 2, 3, 4 ) ]
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="RigidBody2D"]
-scale = Vector2( 0.5, 0.5 )
-polygon = PoolVector2Array( 32, -32, 32, 32, -32, 32, -32, -32, 31, -32 )
-
 [node name="Player" parent="." instance=ExtResource( 5 )]
 position = Vector2( 199, 113 )
 rotation = 0.138881
 mass = 3.72
-
-[connection signal="body_entered" from="RigidBody2D" to="RigidBody2D" method="_on_RigidBody2D_body_entered"]
