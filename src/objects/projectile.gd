@@ -38,6 +38,9 @@ func _physics_process(delta):
 static func calculate_velocity(start_pos: Vector2, target_pos: Vector2, energy: float):
 	var distance = start_pos.x - target_pos.x
 	
+	if distance == 0:
+		return Vector2.UP * energy
+	
 	var needed_y = energy - abs(distance)
 	var needed_x = (energy - needed_y) * (distance / abs(distance))
 	
