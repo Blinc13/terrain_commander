@@ -1,0 +1,48 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=2]
+
+[ext_resource path="res://assets/textures/terrain/background_n.png" type="Texture" id=1]
+
+[sub_resource type="VisualShaderNodeTextureUniform" id=2]
+uniform_name = "Normal_map"
+
+[sub_resource type="VisualShader" id=1]
+code = "shader_type canvas_item;
+uniform sampler2D Normal_map;
+
+
+
+void vertex() {
+// Output:0
+
+}
+
+void fragment() {
+// TextureUniform:2
+	vec3 n_out2p0;
+	float n_out2p1;
+	{
+		vec4 n_tex_read = texture(Normal_map, UV.xy);
+		n_out2p0 = n_tex_read.rgb;
+		n_out2p1 = n_tex_read.a;
+	}
+
+// Output:0
+	NORMALMAP = n_out2p0;
+
+}
+
+void light() {
+// Output:0
+
+}
+"
+graph_offset = Vector2( -429.395, 70.6982 )
+mode = 1
+flags/light_only = false
+nodes/fragment/2/node = SubResource( 2 )
+nodes/fragment/2/position = Vector2( 60, 160 )
+nodes/fragment/connections = PoolIntArray( 2, 0, 0, 3 )
+
+[resource]
+shader = SubResource( 1 )
+shader_param/Normal_map = ExtResource( 1 )
