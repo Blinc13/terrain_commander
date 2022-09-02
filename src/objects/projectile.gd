@@ -27,7 +27,7 @@ func set_parameters(params: Parameters):
 
 func _physics_process(delta):
 	var colision = move_and_collide(velocity * delta)
-	velocity.y += 98.0 * delta
+	velocity = update_velocity(velocity, 98.0, delta)
 	
 	if colision and colision.collider is TerrainFragment:
 		var polygon = PolygonGenerator.generate_circle(25)
@@ -45,3 +45,8 @@ static func calculate_velocity(start_pos: Vector2, target_pos: Vector2, energy: 
 	var needed_x = (energy - needed_y) * (distance / abs(distance))
 	
 	return Vector2(-needed_x, -needed_y) / 2
+
+static func update_velocity(vel: Vector2, grav: float, dlt: float) -> Vector2:
+	vel.y += grav * dlt
+	
+	return vel

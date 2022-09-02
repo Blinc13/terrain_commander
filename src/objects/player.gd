@@ -4,6 +4,7 @@ var rocket = preload("res://scenes/projectile/Rocket.tscn")
 
 export(float) var BARREL_MOVE_SPEED = 10.0
 export(float) var ACCELERATION = 15.0
+export(float) var STABLIZATION = 1.2
 
 onready var barrel = $Barrel
 
@@ -23,14 +24,24 @@ func _physics_process(delta):
 		fire()
 
 func _integrate_forces(state):
-	var input = Input.get_vector("left", "right", "up", "down")
+	# Corporate values
+	var angle = Vector2(cos(rotation), sin(rotation))
 	
+	# Stabilisating
+	var offset = angle.dot(Vector2.UP)
+	
+	var direction_to_rot = (offset / abs(offset))
+	
+	state.apply_torque_impulse(STABLIZATION * direction_to_rot)
+	
+	
+	# Controls
 	if state.get_contact_count() > 0:
+		var input = Input.get_vector("left", "right", "up", "down")
 		var normal = position.direction_to(state.get_contact_local_position(0))
-		var angle = Vector2(cos(rotation), sin(rotation)).dot(normal)
 		
 		# If contact point is under the tank, apply impulse
-		if abs(angle) < 0.69:
+		if abs(angle.dot(normal)) < 0.69:
 			var move_dir = input.rotated(normal.angle() + PI/2)
 			
 			state.apply_impulse(Vector2.DOWN * 5, move_dir * ACCELERATION)
