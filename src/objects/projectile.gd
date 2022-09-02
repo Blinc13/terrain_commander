@@ -27,7 +27,12 @@ func set_parameters(params: Parameters):
 
 func _physics_process(delta):
 	var colision = move_and_collide(velocity * delta)
+	
 	velocity = update_velocity(velocity, 98.0, delta)
+	
+	# Calculate rotation of projectile
+	rotation = velocity.angle()
+	
 	
 	if colision and colision.collider is TerrainFragment:
 		var polygon = PolygonGenerator.generate_circle(25)
