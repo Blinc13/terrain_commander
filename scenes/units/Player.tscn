@@ -14,6 +14,9 @@ contacts_reported = 1
 can_sleep = false
 script = ExtResource( 3 )
 
+[node name="Line2D" type="Line2D" parent="."]
+default_color = Color( 1, 1, 1, 0.203922 )
+
 [node name="Barrel" type="Sprite" parent="."]
 texture = ExtResource( 1 )
 
