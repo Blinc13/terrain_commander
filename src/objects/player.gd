@@ -32,8 +32,10 @@ func _integrate_forces(state):
 	
 	# Stabilisating
 	var offset = angle.dot(Vector2.UP)
+	var direction_to_rot = 0
 	
-	var direction_to_rot = (offset / abs(offset))
+	if offset != 0:
+		direction_to_rot = (offset / abs(offset))
 	
 	state.apply_torque_impulse(STABLIZATION * direction_to_rot)
 	
