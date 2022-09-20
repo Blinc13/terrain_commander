@@ -3,18 +3,35 @@ extends Node2D
 class_name TerrainManager
 
 func cut_of(polygon: PoolVector2Array, part: Object, pos: Vector2):
-	var mesh = PoolVector2Array()
+	polygon = PolygonGenerator.move_polygon(polygon, pos)
 	
-	for x in polygon:
-		mesh.push_back(x + pos)
+	var affected_fragments = Misc.get_phys_objects_in_shape(create_shape(polygon), get_world_2d(), 9)
 	
-	var fragmet = part as TerrainFragment
-	var array = fragmet.clip_polygon(mesh)
+	for entry in affected_fragments:
+		var fragment = entry["collider"] as TerrainFragment
+		
+		clip_polygon_for_fragment(fragment, polygon)
+
+
+func clip_polygon_for_fragment(fragment: TerrainFragment, polygon):
+	var array = fragment.clip_polygon(polygon)
 	
 	if array != null:
-		var new_fragment = TerrainFragment.new(array[0], fragmet.get_parameters())
-		
-		add_child(new_fragment)
+		for polygon in array:
+			create_fragment(polygon, fragment.get_parameters())
+
+func create_fragment(polygon: PoolVector2Array, params: TerrainFragment.Parameters):
+	var new_fragment = TerrainFragment.new(polygon, params)
+	
+	add_child(new_fragment)
+
+
+func create_shape(polygon: PoolVector2Array) -> ConvexPolygonShape2D:
+	var shape = ConvexPolygonShape2D.new()
+	
+	shape.points = polygon
+	
+	return shape
 
 
 # Only for editor

@@ -1,15 +1,11 @@
 extends Node
 
-func calculate_projectile_path(gravity: float, initial_velocity: Vector2, points_count: int) -> PoolVector2Array:
-	var position = Vector2.ZERO
-	var velocity = initial_velocity
+func get_phys_objects_in_shape(shape: Shape2D, world: World2D, layer: int) -> Array:
+	var phys_state = Physics2DServer.space_get_direct_state(world.space)
 	
-	var output = PoolVector2Array()
+	var params = Physics2DShapeQueryParameters.new()
 	
-	for x in range(0, points_count):
-		output.push_back(position)
-		
-		position += velocity * 0.1
-		velocity = Projectile.update_velocity(velocity, gravity, 0.1)
+	params.shape_rid = shape.get_rid()
+	params.collision_layer = 1 << layer
 	
-	return output
+	return phys_state.intersect_shape(params)

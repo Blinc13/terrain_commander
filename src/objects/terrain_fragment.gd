@@ -15,6 +15,8 @@ var pol: Polygon2D
 var col: CollisionPolygon2D
 
 func _init(polygon: PoolVector2Array, params: Parameters):
+	set_collision_layer_bit(9, true)
+	
 	pol = Polygon2D.new()
 	col = CollisionPolygon2D.new()
 	

@@ -77,4 +77,4 @@ func update_trajectory():
 	var fire_pos = calculate_fire_position()
 	var velocity = Projectile.calculate_velocity(fire_pos, target, Projectile.FIRE_ENERGY)
 	
-	trajectory.points = Misc.calculate_projectile_path(98, velocity, 150)
+	trajectory.points = Projectile.calculate_projectile_path(98, velocity, 150)

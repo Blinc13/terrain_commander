@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://src/objects/terrain_manager.gd" type="Script" id=1]
 [ext_resource path="res://assets/textures/terrain/background.png" type="Texture" id=2]
 [ext_resource path="res://assets/textures/terrain/terrain.png" type="Texture" id=3]
 [ext_resource path="res://assets/materials/terrain/NormalMap.tres" type="Material" id=4]
 [ext_resource path="res://scenes/units/Player.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/ui/InGame.tscn" type="PackedScene" id=6]
 
 [node name="Node2D" type="Node2D"]
 
@@ -22,9 +23,16 @@ script = ExtResource( 1 )
 modulate = Color( 0.815686, 0.815686, 0.815686, 1 )
 material = ExtResource( 4 )
 texture = ExtResource( 3 )
-polygon = PoolVector2Array( 10, 132, 81, 136, 130, 127, 204, 135, 242, 130, 284, 126, 356, 134, 417, 136, 470, 140, 474, 418, -1, 430 )
+polygon = PoolVector2Array( 235, 109, 225, 135, 218, 147, 209, 150, 198, 149, 191, 145, 180, 147, 169, 162, 152, 174, 128, 187, 109, 195, 80, 207, 60, 229, 25, 255, 13, 289, 5, 333, 5, 371, 13, 396, 61, 414, 196, 415, 296, 415, 392, 404, 444, 393, 498, 314, 478, 220, 428, 165, 299, 110, 282, 100, 259, 90, 240, 90 )
+
+[node name="Polygon2D2" type="Polygon2D" parent="TerrainManager"]
+polygon = PoolVector2Array( 30, -6, 32, 38, 6, 53, -21, 42, -29, 8, -14, -28, 14, -30 )
 
 [node name="Player" parent="." instance=ExtResource( 5 )]
-position = Vector2( 199, 113 )
-rotation = 0.138881
+position = Vector2( 210, 136 )
+rotation = 0.0803382
 mass = 3.72
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" parent="CanvasLayer" instance=ExtResource( 6 )]

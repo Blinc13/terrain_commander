@@ -12,3 +12,11 @@ static func generate_circle(radius: float) -> PoolVector2Array:
 		output.push_back(vertex)
 	
 	return output
+
+static func move_polygon(polygon: PoolVector2Array, pos: Vector2) -> PoolVector2Array:
+	var out = PoolVector2Array()
+	
+	for x in polygon:
+		out.push_back(x + pos)
+	
+	return out
