@@ -1,5 +1,7 @@
 extends Control
 
+export(float) var TURN_LABEL_DURATION = 4.0
+
 onready var game = BaseNodes.game
 
 onready var time_label = $VBoxContainer/Timer
@@ -22,7 +24,7 @@ func turn_event(text: String):
 	turn_label.text = text
 	turn_label.show()
 	
-	hide_timer.start(1)
+	hide_timer.start(TURN_LABEL_DURATION)
 
 func time_to_string(time: float) -> String:
 	var seconds = int(time)

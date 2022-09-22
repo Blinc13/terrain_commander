@@ -41,9 +41,9 @@ func _ready():
 		
 		if child is Polygon2D:
 			var params = TerrainFragment.Parameters.new(child.texture, child.material)
-			var new_child = TerrainFragment.new(child.polygon, params)
 			
-			add_child(new_child)
+			create_fragment(child.polygon, params)
+			
 			child.queue_free()
 
 func _init():

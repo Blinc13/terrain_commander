@@ -6,7 +6,7 @@ var rocket = preload("res://scenes/projectile/Rocket.tscn")
 
 export(float) var BARREL_MOVE_SPEED = 10.0
 export(float) var ACCELERATION = 15.0
-export(float) var STABLIZATION = 1.2
+export(float) var STABLIZATION = 3
 export(float) var FIRE_ENERGY = 500.0
 
 onready var barrel = $Barrel
