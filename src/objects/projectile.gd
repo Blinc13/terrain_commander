@@ -5,23 +5,27 @@ class_name Projectile
 class Parameters:
 	var s_pos: Vector2
 	var t_pos: Vector2
+	var en: float
 	
-	func _init(start_pos: Vector2, target_pos: Vector2):
+	func _init(start_pos: Vector2, target_pos: Vector2, energy: float):
 		s_pos = start_pos
 		t_pos = target_pos
+		en = energy
 
-const FIRE_ENERGY: float = 300.0
 
-var terrain = BaseNodes.manager
+onready var terrain = BaseNodes.manager
+
 var velocity: Vector2
+
 var start_pos: Vector2
 var target: Vector2
+
 
 func set_parameters(params: Parameters):
 	start_pos = params.s_pos
 	target = params.t_pos
 	
-	velocity = calculate_velocity(start_pos, target, FIRE_ENERGY)
+	velocity = calculate_velocity(start_pos, target, params.en)
 	
 	position = start_pos
 
@@ -30,15 +34,18 @@ func _physics_process(delta):
 	
 	velocity = update_velocity(velocity, 98.0, delta)
 	
-	# Calculate rotation of projectile
 	rotation = velocity.angle()
 	
-	
 	if colision and colision.collider is TerrainFragment:
-		var polygon = PolygonGenerator.generate_circle(25)
+		explode_terrain(global_position)
 		
-		terrain.cut_of(polygon, colision.collider, global_position)
 		queue_free()
+
+func explode_terrain(pos: Vector2):
+	var polygon = PolygonGenerator.generate_circle(25)
+	
+	terrain.cut_of(polygon, pos)
+
 
 static func calculate_velocity(start_pos: Vector2, target_pos: Vector2, energy: float):
 	var distance = start_pos.x - target_pos.x

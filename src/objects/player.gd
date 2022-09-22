@@ -5,6 +5,7 @@ var rocket = preload("res://scenes/projectile/Rocket.tscn")
 export(float) var BARREL_MOVE_SPEED = 10.0
 export(float) var ACCELERATION = 15.0
 export(float) var STABLIZATION = 1.2
+export(float) var FIRE_ENERGY = 500.0
 
 onready var barrel = $Barrel
 onready var trajectory = $Line2D
@@ -15,7 +16,7 @@ var target_angle: float = 0.0
 func _input(event):
 	if event is InputEventMouseMotion:
 		target = get_global_mouse_position()
-		target_angle = Projectile.calculate_velocity(position, get_global_mouse_position(), Projectile.FIRE_ENERGY).angle() + PI/2
+		target_angle = Projectile.calculate_velocity(position, get_global_mouse_position(), FIRE_ENERGY).angle() + PI/2
 		
 		update_trajectory()
 
@@ -68,13 +69,13 @@ func calculate_fire_position() -> Vector2:
 func fire():
 	var node = rocket.instance()
 	
-	var node_params = Projectile.Parameters.new(calculate_fire_position(), target)
+	var node_params = Projectile.Parameters.new(calculate_fire_position(), target, FIRE_ENERGY)
 	node.set_parameters(node_params)
 	
 	get_parent().add_child(node)
 
 func update_trajectory():
 	var fire_pos = calculate_fire_position()
-	var velocity = Projectile.calculate_velocity(fire_pos, target, Projectile.FIRE_ENERGY)
+	var velocity = Projectile.calculate_velocity(fire_pos, target, FIRE_ENERGY)
 	
 	trajectory.points = Projectile.calculate_projectile_path(98, velocity, 150)

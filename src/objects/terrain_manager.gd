@@ -2,7 +2,7 @@ extends Node2D
 
 class_name TerrainManager
 
-func cut_of(polygon: PoolVector2Array, part: Object, pos: Vector2):
+func cut_of(polygon: PoolVector2Array, pos: Vector2):
 	polygon = PolygonGenerator.move_polygon(polygon, pos)
 	
 	var affected_fragments = Misc.get_phys_objects_in_shape(create_shape(polygon), get_world_2d(), 9)
