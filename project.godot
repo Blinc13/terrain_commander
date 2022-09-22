@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node2D",
+"class": "Game",
+"language": "GDScript",
+"path": "res://src/objects/game.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "Projectile",
 "language": "GDScript",
@@ -25,6 +30,7 @@ _global_script_classes=[ {
 "path": "res://src/objects/terrain_manager.gd"
 } ]
 _global_script_class_icons={
+"Game": "",
 "Projectile": "",
 "TerrainFragment": "",
 "TerrainManager": ""

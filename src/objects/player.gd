@@ -1,5 +1,7 @@
 extends RigidBody2D
 
+signal Fire
+
 var rocket = preload("res://scenes/projectile/Rocket.tscn")
 
 export(float) var BARREL_MOVE_SPEED = 10.0
@@ -13,6 +15,9 @@ onready var trajectory = $Line2D
 var target: Vector2
 var target_angle: float = 0.0
 
+var can_move: bool = true setget set_move
+var can_fire: bool = false setget set_fire
+
 func _input(event):
 	if event is InputEventMouseMotion:
 		target = get_global_mouse_position()
@@ -24,7 +29,7 @@ func _physics_process(delta):
 	calculate_barrel_angle()
 	trajectory.global_rotation = 0
 	
-	if Input.is_action_just_pressed("fire"):
+	if Input.is_action_just_pressed("fire") && can_fire:
 		fire()
 
 func _integrate_forces(state):
@@ -42,7 +47,7 @@ func _integrate_forces(state):
 	
 	
 	# Controls
-	if state.get_contact_count() > 0:
+	if state.get_contact_count() > 0 and can_move:
 		var input = Input.get_vector("left", "right", "up", "down")
 		var normal = position.direction_to(state.get_contact_local_position(0))
 		
@@ -55,6 +60,9 @@ func _integrate_forces(state):
 
 
 func calculate_barrel_angle():
+	if !can_fire:
+		return
+	
 	var weight = abs(target_angle - barrel.rotation) / BARREL_MOVE_SPEED
 	var angle = lerp_angle(barrel.rotation, target_angle, weight)
 	
@@ -73,9 +81,31 @@ func fire():
 	node.set_parameters(node_params)
 	
 	get_parent().add_child(node)
+	emit_signal("Fire")
 
 func update_trajectory():
+	if !can_fire:
+		return
+	
 	var fire_pos = calculate_fire_position()
 	var velocity = Projectile.calculate_velocity(fire_pos, target, FIRE_ENERGY)
 	
 	trajectory.points = Projectile.calculate_projectile_path(98, velocity, 150)
+
+
+func set_move(value: bool):
+	can_move = value
+
+func set_fire(value: bool):
+	can_fire = value
+	
+	trajectory.visible = value
+
+
+func _ready():
+	var game = BaseNodes.game
+	
+	game.connect("MoveTurn", self, "set_move", [true])
+	game.connect("FireTurn", self, "set_move", [false])
+	
+	game.connect("CanFire", self, "set_fire")

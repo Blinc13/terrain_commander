@@ -69,7 +69,7 @@ static func calculate_projectile_path(gravity: float, initial_velocity: Vector2,
 	
 	var output = PoolVector2Array()
 	
-	for x in range(0, points_count):
+	for _x in range(0, points_count):
 		output.push_back(position)
 		
 		position += velocity * 0.1
