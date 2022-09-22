@@ -7,26 +7,18 @@ onready var turn_label = $TurnMessage
 onready var hide_timer = $HideTimer
 
 func _ready():
-	game.connect("FireTurn", self, "fire_turn")
-	game.connect("MoveTurn", self, "move_turn")
+	game.connect("FireTurn", self, "turn_event", ["Fire turn!"])
+	game.connect("MoveTurn", self, "turn_event", ["Move turn!"])
 
 func _process(delta):
 	var time = game.get_duration_of_current_turn()
 	
 	time_label.text = time_to_string(time - game.time)
 
-func move_turn():
-	turn_label.text = "Move turn!"
-	turn_label.show()
-
-func fire_turn():
-	turn_label.text = "Fire turn!"
-	turn_label.show()
-
 func handle_timer():
 	turn_label.hide()
 
-func set_turn_label_text(text: String):
+func turn_event(text: String):
 	turn_label.text = text
 	turn_label.show()
 	
