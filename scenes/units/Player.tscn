@@ -1,11 +1,14 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/textures/units/tank/barrel.png" type="Texture" id=1]
 [ext_resource path="res://assets/textures/units/tank/base.png" type="Texture" id=2]
 [ext_resource path="res://src/objects/player.gd" type="Script" id=3]
+[ext_resource path="res://assets/materials/trajectory/light.tres" type="Material" id=4]
 
 [sub_resource type="PhysicsMaterial" id=2]
 friction = 0.4
+
+[sub_resource type="Gradient" id=3]
 
 [node name="Player" type="RigidBody2D"]
 mass = 85.9
@@ -15,7 +18,9 @@ can_sleep = false
 script = ExtResource( 3 )
 
 [node name="Line2D" type="Line2D" parent="."]
+material = ExtResource( 4 )
 default_color = Color( 1, 1, 1, 0.203922 )
+gradient = SubResource( 3 )
 
 [node name="Barrel" type="Sprite" parent="."]
 texture = ExtResource( 1 )
