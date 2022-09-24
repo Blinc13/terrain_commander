@@ -17,15 +17,29 @@ func init(is_master: bool, params: Parameters):
 	var tree = get_tree()
 	
 	if is_master:
-		tree.connect("network_peer_connected", self, "")
-		tree.connect("network_peer_disconnected", self, "")
+		tree.connect("network_peer_connected", self, "client_connected")
+		tree.connect("network_peer_disconnected", self, "client_disconnected")
 		
 		peer.create_server(params.port)
 	else:
-		tree.connect("connected_to_server", self, "")
-		tree.connect("connection_failed", self, "")
+		tree.connect("connected_to_server", self, "connected_to_server")
+		tree.connect("connection_failed", self, "connection_failed")
 	
 	tree.network_peer = peer
 
-func _ready():
-	init(true, Parameters.new())
+# Server funcs
+func client_connected(id):
+	print("Connected: ", id)
+
+func client_disconnected(id):
+	print("Disconnected: ", id)
+
+
+# Client funcs
+func connected_to_server():
+	pass
+
+func connection_failed():
+	pass
+
+# General functions

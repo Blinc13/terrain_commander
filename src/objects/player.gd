@@ -5,7 +5,7 @@ signal Fire
 var rocket = preload("res://scenes/projectile/Rocket.tscn")
 
 export(float) var BARREL_MOVE_SPEED = 10.0
-export(float) var ACCELERATION = 15.0
+export(float) var ACCELERATION = 150.0
 export(float) var STABLIZATION = 3
 export(float) var FIRE_ENERGY = 500.0
 
@@ -31,6 +31,12 @@ master func _physics_process(delta):
 	
 	if Input.is_action_just_pressed("fire") && can_fire:
 		fire()
+	
+	set_pos_and_rotation_on_rpc()
+
+master func set_pos_and_rotation_on_rpc():
+	rset("position", position)
+	rset("rotation", rotation)
 
 master func _integrate_forces(state):
 	# Corporate values
@@ -55,7 +61,7 @@ master func _integrate_forces(state):
 		if abs(angle.dot(normal)) < 0.69:
 			var move_dir = input.rotated(normal.angle() + PI/2)
 			
-			state.apply_impulse(Vector2.DOWN * 5, move_dir * ACCELERATION * state.step)
+			state.apply_impulse(Vector2.DOWN * 5, move_dir * ACCELERATION)
 
 
 
@@ -101,8 +107,7 @@ master func set_fire(value: bool):
 	
 	trajectory.visible = value
 
-func _ready():
-	set_network_master(1)
+master func _ready():
 	var game = BaseNodes.game
 	
 	game.connect("MoveTurn", self, "set_move", [true])
