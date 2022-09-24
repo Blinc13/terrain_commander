@@ -10,7 +10,7 @@ export(float) var STABLIZATION = 3
 export(float) var FIRE_ENERGY = 500.0
 
 onready var barrel = $Barrel
-onready var trajectory = $Line2D
+onready var trajectory = get_node_or_null("Line2D")
 
 var target: Vector2
 var target_angle: float = 0.0
@@ -18,30 +18,38 @@ var target_angle: float = 0.0
 var can_move: bool = true setget set_move
 var can_fire: bool = false setget set_fire
 
+remote var puppet_pos: Vector2
+remote var puppet_rot: float
+
 func _input(event):
+	if !is_network_master():
+		return
+	
 	if event is InputEventMouseMotion:
 		target = get_global_mouse_position()
 		target_angle = Projectile.calculate_velocity(position, get_global_mouse_position(), FIRE_ENERGY).angle() + PI/2
-		
+	
 		update_trajectory()
 
 func _physics_process(delta):
-	calculate_barrel_angle()
+	if !is_network_master():
+		position = puppet_pos
+		rotation = puppet_rot
+		
+		return
+	
 	trajectory.global_rotation = 0
 	
-	if Input.is_action_just_pressed("fire") && can_fire:
+	if can_fire && Input.is_action_just_pressed("fire"):
 		fire()
 	
-	set_pos_and_rotation_on_rpc()
-
-func set_pos_and_rotation_on_rpc():
-	rpc_unreliable("set_params", position, rotation)
-
-func set_params(pos: Vector2, rot: float):
-	position = pos
-	rotation = rot
+	rset_unreliable("puppet_pos", position)
+	rset_unreliable("puppet_rot", rotation)
 
 func _integrate_forces(state):
+	if !is_network_master():
+		return
+	
 	# Corporate values
 	var angle = Vector2(cos(rotation), sin(rotation))
 	
@@ -69,9 +77,6 @@ func _integrate_forces(state):
 
 
 func calculate_barrel_angle():
-	if !can_fire:
-		return
-	
 	var weight = abs(target_angle - barrel.rotation) / BARREL_MOVE_SPEED
 	var angle = lerp_angle(barrel.rotation, target_angle, weight)
 	
@@ -93,9 +98,6 @@ func fire():
 	emit_signal("Fire")
 
 func update_trajectory():
-	if !can_fire:
-		return
-	
 	var fire_pos = calculate_fire_position()
 	var velocity = Projectile.calculate_velocity(fire_pos, target, FIRE_ENERGY)
 	
