@@ -117,3 +117,4 @@ margin_bottom = 40.0
 
 [connection signal="pressed" from="Title/HBoxContainer/VBoxContainer/PlayButton" to="." method="play"]
 [connection signal="pressed" from="Title/HBoxContainer/VBoxContainer/QuitButton" to="." method="quit"]
+[connection signal="item_activated" from="LevelsList/TabContainer/Embeded" to="." method="embeded_level_selected"]
