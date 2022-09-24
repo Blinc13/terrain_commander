@@ -55,7 +55,7 @@ master func _integrate_forces(state):
 		if abs(angle.dot(normal)) < 0.69:
 			var move_dir = input.rotated(normal.angle() + PI/2)
 			
-			state.apply_impulse(Vector2.DOWN * 5, move_dir * ACCELERATION)
+			state.apply_impulse(Vector2.DOWN * 5, move_dir * ACCELERATION * state.step)
 
 
 

@@ -4,7 +4,7 @@
 [ext_resource path="res://assets/textures/terrain/background.png" type="Texture" id=2]
 [ext_resource path="res://assets/textures/terrain/terrain.png" type="Texture" id=3]
 [ext_resource path="res://assets/materials/terrain/TerrainMaterial.tres" type="Material" id=4]
-[ext_resource path="res://scenes/units/Player/Player.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/units/Player/MasterPlayer.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scenes/ui/InGame.tscn" type="PackedScene" id=6]
 [ext_resource path="res://src/objects/game.gd" type="Script" id=7]
 [ext_resource path="res://assets/materials/terrain/BackgroundMaterial.tres" type="Material" id=8]
@@ -32,9 +32,7 @@ polygon = PoolVector2Array( 235, 109, 225, 135, 218, 147, 209, 150, 198, 149, 19
 polygon = PoolVector2Array( 30, -6, 32, 38, 6, 53, -21, 42, -29, 8, -14, -28, 14, -30 )
 
 [node name="Player" parent="." instance=ExtResource( 5 )]
-position = Vector2( 210, 136 )
-rotation = 0.0803382
-mass = 3.72
+position = Vector2( 246, 79 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
