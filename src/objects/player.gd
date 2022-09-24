@@ -92,20 +92,29 @@ func calculate_fire_position() -> Vector2:
 	
 	return position + dir * 15
 
-func fire():
-	var node = rocket.instance()
-	
-	var node_params = Projectile.Parameters.new(calculate_fire_position(), target, FIRE_ENERGY)
-	node.set_parameters(node_params)
-	
-	get_parent().add_child(node)
-	emit_signal("Fire")
-
 func update_trajectory():
 	var fire_pos = calculate_fire_position()
 	var velocity = Projectile.calculate_velocity(fire_pos, target, FIRE_ENERGY)
 	
 	trajectory.points = Projectile.calculate_projectile_path(98, velocity, 150)
+
+
+func fire():
+	var node_params = Projectile.Parameters.new(calculate_fire_position(), target, FIRE_ENERGY)
+	
+	rpc("spawn_rocket", node_params)
+	
+	emit_signal("Fire")
+
+remotesync func spawn_rocket(params: Projectile.Parameters):
+	var node = rocket.instance()
+	
+	var node_params = Projectile.Parameters.new(calculate_fire_position(), target, FIRE_ENERGY)
+	node.set_parameters(node_params)
+	
+	node.set_network_master(1) # Server is master of all rockets
+	
+	BaseNodes.game.add_child(node)
 
 
 func set_move(value: bool):

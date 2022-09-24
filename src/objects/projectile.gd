@@ -20,6 +20,8 @@ var velocity: Vector2
 var start_pos: Vector2
 var target: Vector2
 
+remote var puppet_pos: Vector2
+remote var puppet_rot: float
 
 func set_parameters(params: Parameters):
 	start_pos = params.s_pos
@@ -30,22 +32,32 @@ func set_parameters(params: Parameters):
 	position = start_pos
 
 func _physics_process(delta):
+	if !is_network_master():
+		position = puppet_pos
+		rotation = puppet_rot
+		
+		return
+	
 	var colision = move_and_collide(velocity * delta)
-	
-	velocity = update_velocity(velocity, 98.0, delta)
-	
-	rotation = velocity.angle()
 	
 	if colision:
 		explode_terrain(global_position)
 		
-		queue_free()
+		rpc("destroy_object")
+	
+	velocity = update_velocity(velocity, 98.0, delta)
+	rotation = velocity.angle()
+	
+	rset_unreliable("puppet_pos", position)
+	rset_unreliable("puppet_rot", rotation)
 
 func explode_terrain(pos: Vector2):
 	var polygon = PolygonGenerator.generate_circle(25)
 	
 	terrain.cut_of(polygon, pos)
 
+remotesync func destroy_object():
+	queue_free()
 
 static func calculate_velocity(start_pos: Vector2, target_pos: Vector2, energy: float):
 	var distance = start_pos.x - target_pos.x
