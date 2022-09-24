@@ -9,8 +9,8 @@ export(float) var ACCELERATION = 150.0
 export(float) var STABLIZATION = 3
 export(float) var FIRE_ENERGY = 500.0
 
-onready var barrel = $Barrel
-onready var trajectory = get_node_or_null("Line2D")
+onready var barrel: Node2D = $Barrel
+onready var trajectory: Node2D = get_node_or_null("Line2D")
 
 var target: Vector2
 var target_angle: float = 0.0
@@ -20,6 +20,7 @@ var can_fire: bool = false setget set_fire
 
 remote var puppet_pos: Vector2
 remote var puppet_rot: float
+remote var puppet_barrel_rot: float
 
 func _input(event):
 	if !is_network_master():
@@ -35,9 +36,11 @@ func _physics_process(delta):
 	if !is_network_master():
 		position = puppet_pos
 		rotation = puppet_rot
+		barrel.rotation = puppet_barrel_rot
 		
 		return
 	
+	calculate_barrel_angle()
 	trajectory.global_rotation = 0
 	
 	if can_fire && Input.is_action_just_pressed("fire"):
@@ -45,6 +48,7 @@ func _physics_process(delta):
 	
 	rset_unreliable("puppet_pos", position)
 	rset_unreliable("puppet_rot", rotation)
+	rset_unreliable("puppet_barrel_rot", barrel.rotation)
 
 func _integrate_forces(state):
 	if !is_network_master():
@@ -113,6 +117,9 @@ func set_fire(value: bool):
 	trajectory.visible = value
 
 func _ready():
+	if !is_network_master():
+		return
+	
 	var game = BaseNodes.game
 	
 	game.connect("MoveTurn", self, "set_move", [true])

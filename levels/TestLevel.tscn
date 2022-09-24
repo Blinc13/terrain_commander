@@ -10,3 +10,6 @@
 material = ExtResource( 2 )
 texture = ExtResource( 3 )
 polygon = PoolVector2Array( 129, 360, 202, 502, 527, 524, 820, 471, 883, 328, 870, 199, 737, 61, 656, 164, 611, 313, 515, 348, 354, 371, 228, 355 )
+
+[node name="PlayersManager" parent="." index="2"]
+spawn_points = PoolVector2Array( 220, 345, 575, 300 )

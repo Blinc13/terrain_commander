@@ -30,6 +30,7 @@ func init(is_master: bool, params: Parameters):
 	else:
 		tree.connect("connected_to_server", self, "connected_to_server")
 		tree.connect("connection_failed", self, "connection_failed")
+		tree.connect("server_disconnected", self, "server_disconnected")
 		
 		peer.create_client(params.ip, params.port)
 	
@@ -51,6 +52,9 @@ func connected_to_server():
 
 func connection_failed():
 	emit_signal("ConnectionFail")
+
+func servet_disconnected():
+	get_tree().quit(1) # Temporary solution
 
 # General functions
 master func start_game(level_scene_path: String):
