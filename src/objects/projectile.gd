@@ -13,7 +13,7 @@ class Parameters:
 		en = energy
 
 
-onready var terrain = BaseNodes.manager
+onready var terrain = BaseNodes.terrain_manager
 
 var velocity: Vector2
 

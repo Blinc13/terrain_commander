@@ -5,7 +5,7 @@ class_name PlayersManager
 var master_player = preload("res://scenes/units/Player/MasterPlayer.tscn")
 var puppet_player = preload("res://scenes/units/Player/PuppetPlayer.tscn")
 
-func append_player(id: int):
+remote func append_player(id: int):
 	var instanced: Node
 	
 	if id == get_tree().get_network_unique_id():
@@ -18,3 +18,6 @@ func append_player(id: int):
 
 func add_player(player: Node):
 	add_child(player)
+
+func _init():
+	BaseNodes.players_manager = self

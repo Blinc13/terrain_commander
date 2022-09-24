@@ -47,4 +47,4 @@ func _ready():
 			child.queue_free()
 
 func _init():
-	BaseNodes.manager = self
+	BaseNodes.terrain_manager = self
