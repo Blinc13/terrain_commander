@@ -47,6 +47,7 @@ config/icon="res://icon.png"
 PolygonGenerator="*res://src/singletons/polygon_generator.gd"
 BaseNodes="*res://src/singletons/base_nodes.gd"
 Misc="*res://src/singletons/misc.gd"
+Server="*res://src/singletons/server.gd"
 
 [display]
 

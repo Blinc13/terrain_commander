@@ -101,7 +101,8 @@ master func set_fire(value: bool):
 	
 	trajectory.visible = value
 
-master func _ready():
+func _ready():
+	set_network_master(1)
 	var game = BaseNodes.game
 	
 	game.connect("MoveTurn", self, "set_move", [true])
