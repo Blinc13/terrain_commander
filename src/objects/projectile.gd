@@ -36,7 +36,7 @@ func _physics_process(delta):
 	
 	rotation = velocity.angle()
 	
-	if colision and colision.collider is TerrainFragment:
+	if colision:
 		explode_terrain(global_position)
 		
 		queue_free()

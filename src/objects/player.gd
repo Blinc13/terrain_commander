@@ -25,7 +25,7 @@ func _input(event):
 		
 		update_trajectory()
 
-master func _physics_process(delta):
+func _physics_process(delta):
 	calculate_barrel_angle()
 	trajectory.global_rotation = 0
 	
@@ -34,11 +34,14 @@ master func _physics_process(delta):
 	
 	set_pos_and_rotation_on_rpc()
 
-master func set_pos_and_rotation_on_rpc():
-	rset("position", position)
-	rset("rotation", rotation)
+func set_pos_and_rotation_on_rpc():
+	rpc_unreliable("set_params", position, rotation)
 
-master func _integrate_forces(state):
+func set_params(pos: Vector2, rot: float):
+	position = pos
+	rotation = rot
+
+func _integrate_forces(state):
 	# Corporate values
 	var angle = Vector2(cos(rotation), sin(rotation))
 	
@@ -65,7 +68,7 @@ master func _integrate_forces(state):
 
 
 
-master func calculate_barrel_angle():
+func calculate_barrel_angle():
 	if !can_fire:
 		return
 	
@@ -74,13 +77,13 @@ master func calculate_barrel_angle():
 	
 	barrel.rotation = angle
 
-master func calculate_fire_position() -> Vector2:
+func calculate_fire_position() -> Vector2:
 	var angle = barrel.global_rotation
 	var dir = Vector2(cos(angle), sin(angle)).rotated(-PI/2)
 	
 	return position + dir * 15
 
-master func fire():
+func fire():
 	var node = rocket.instance()
 	
 	var node_params = Projectile.Parameters.new(calculate_fire_position(), target, FIRE_ENERGY)
@@ -89,7 +92,7 @@ master func fire():
 	get_parent().add_child(node)
 	emit_signal("Fire")
 
-master func update_trajectory():
+func update_trajectory():
 	if !can_fire:
 		return
 	
@@ -99,15 +102,15 @@ master func update_trajectory():
 	trajectory.points = Projectile.calculate_projectile_path(98, velocity, 150)
 
 
-master func set_move(value: bool):
+func set_move(value: bool):
 	can_move = value
 
-master func set_fire(value: bool):
+func set_fire(value: bool):
 	can_fire = value
 	
 	trajectory.visible = value
 
-master func _ready():
+func _ready():
 	var game = BaseNodes.game
 	
 	game.connect("MoveTurn", self, "set_move", [true])
