@@ -1,19 +1,20 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://src/objects/terrain_manager.gd" type="Script" id=1]
 [ext_resource path="res://assets/textures/terrain/background.png" type="Texture" id=2]
 [ext_resource path="res://assets/textures/terrain/terrain.png" type="Texture" id=3]
-[ext_resource path="res://assets/materials/terrain/NormalMap.tres" type="Material" id=4]
-[ext_resource path="res://scenes/units/Player.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/materials/terrain/TerrainMaterial.tres" type="Material" id=4]
+[ext_resource path="res://scenes/units/Player/Player.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scenes/ui/InGame.tscn" type="PackedScene" id=6]
 [ext_resource path="res://src/objects/game.gd" type="Script" id=7]
+[ext_resource path="res://assets/materials/terrain/BackgroundMaterial.tres" type="Material" id=8]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 7 )
 
 [node name="Background" type="Polygon2D" parent="."]
 modulate = Color( 0.494118, 0.494118, 0.494118, 1 )
-material = ExtResource( 4 )
+material = ExtResource( 8 )
 z_index = -1
 texture = ExtResource( 2 )
 polygon = PoolVector2Array( -157, -149, -159, 532, 632, 525, 623, -156 )

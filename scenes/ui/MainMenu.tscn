@@ -12,7 +12,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 2 )
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="Title" type="VBoxContainer" parent="."]
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
@@ -20,70 +20,100 @@ margin_top = -251.0
 margin_bottom = 257.0
 alignment = 1
 
-[node name="Label" type="Label" parent="VBoxContainer"]
+[node name="Label" type="Label" parent="Title"]
 margin_right = 1024.0
 margin_bottom = 56.0
 custom_fonts/font = SubResource( 1 )
 text = "Terrain Commander"
 align = 1
 
-[node name="Separator" type="Control" parent="VBoxContainer"]
+[node name="Separator" type="Control" parent="Title"]
 margin_top = 60.0
 margin_right = 1024.0
 margin_bottom = 144.0
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.34
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Title"]
 margin_top = 148.0
 margin_right = 1024.0
 margin_bottom = 397.0
 size_flags_vertical = 3
 
-[node name="Separator" type="Control" parent="VBoxContainer/HBoxContainer"]
+[node name="Separator" type="Control" parent="Title/HBoxContainer"]
 margin_right = 349.0
 margin_bottom = 249.0
 size_flags_horizontal = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Title/HBoxContainer"]
 margin_left = 353.0
 margin_right = 670.0
 margin_bottom = 249.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.91
 
-[node name="PlayButton" type="Button" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="PlayButton" type="Button" parent="Title/HBoxContainer/VBoxContainer"]
 margin_right = 317.0
 margin_bottom = 107.0
 size_flags_vertical = 3
 text = "Play"
 
-[node name="Separator" type="Control" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="Separator" type="Control" parent="Title/HBoxContainer/VBoxContainer"]
 margin_top = 111.0
 margin_right = 317.0
 margin_bottom = 137.0
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.24
 
-[node name="QuitButton" type="Button" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="QuitButton" type="Button" parent="Title/HBoxContainer/VBoxContainer"]
 margin_top = 141.0
 margin_right = 317.0
 margin_bottom = 249.0
 size_flags_vertical = 3
 text = "Quit"
 
-[node name="Separator2" type="Control" parent="VBoxContainer/HBoxContainer"]
+[node name="Separator2" type="Control" parent="Title/HBoxContainer"]
 margin_left = 674.0
 margin_right = 1024.0
 margin_bottom = 249.0
 size_flags_horizontal = 3
 
-[node name="Separator2" type="Control" parent="VBoxContainer"]
+[node name="Separator2" type="Control" parent="Title"]
 margin_top = 401.0
 margin_right = 1024.0
 margin_bottom = 508.0
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.43
 
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/VBoxContainer/PlayButton" to="." method="play"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/VBoxContainer/QuitButton" to="." method="quit"]
+[node name="LevelsList" type="PanelContainer" parent="."]
+visible = false
+anchor_left = 0.271
+anchor_top = 0.155
+anchor_right = 0.727
+anchor_bottom = 0.875
+margin_left = -0.504028
+margin_right = -0.448059
+margin_bottom = -6.10352e-05
+
+[node name="TabContainer" type="TabContainer" parent="LevelsList"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 460.0
+margin_bottom = 425.0
+
+[node name="Embeded" type="ItemList" parent="LevelsList/TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+max_columns = 2
+
+[node name="Custom" type="ItemList" parent="LevelsList/TabContainer"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+
+[connection signal="pressed" from="Title/HBoxContainer/VBoxContainer/PlayButton" to="." method="play"]
+[connection signal="pressed" from="Title/HBoxContainer/VBoxContainer/QuitButton" to="." method="quit"]
