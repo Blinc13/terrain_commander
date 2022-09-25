@@ -14,10 +14,10 @@ func _init():
 
 # Slots
 master func remove_player_slot(id: int):
-	rpc("remove_player", id)
+	rpc("remove_player_local", id)
 
 # Remote funcs
-remotesync func instance_player(id: int):
+remotesync func instance_player_local(id: int):
 	var instanced: Node2D
 	
 	if id == get_tree().get_network_unique_id():
@@ -32,7 +32,7 @@ remotesync func instance_player(id: int):
 	
 	add_player(instanced)
 
-remotesync func remove_player(id: int):
+remotesync func remove_player_local(id: int):
 	get_node(str(id)).queue_free()
 
 func add_player(player: Node):

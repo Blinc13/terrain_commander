@@ -3,15 +3,7 @@ extends Node2D
 class_name TerrainManager
 
 func cut_of(polygon: PoolVector2Array, pos: Vector2):
-	polygon = PolygonGenerator.move_polygon(polygon, pos)
-	
-	var affected_fragments = Misc.get_phys_objects_in_shape(create_shape(polygon), get_world_2d(), 9)
-	
-	for entry in affected_fragments:
-		var fragment = entry["collider"] as TerrainFragment
-		
-		clip_polygon_for_fragment(fragment, polygon)
-
+	rpc("cut_of_local", polygon, pos)
 
 func clip_polygon_for_fragment(fragment: TerrainFragment, polygon):
 	var array = fragment.clip_polygon(polygon)
@@ -32,6 +24,16 @@ func create_shape(polygon: PoolVector2Array) -> ConvexPolygonShape2D:
 	shape.points = polygon
 	
 	return shape
+
+remotesync func cut_of_local(polygon: PoolVector2Array, pos: Vector2):
+	polygon = PolygonGenerator.move_polygon(polygon, pos)
+	
+	var affected_fragments = Misc.get_phys_objects_in_shape(create_shape(polygon), get_world_2d(), 9)
+	
+	for entry in affected_fragments:
+		var fragment = entry["collider"] as TerrainFragment
+		
+		clip_polygon_for_fragment(fragment, polygon)
 
 
 # Only for editor

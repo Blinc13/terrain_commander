@@ -43,7 +43,7 @@ func _physics_process(delta):
 	if colision:
 		explode_terrain(global_position)
 		
-		rpc("destroy_object")
+		rpc("destroy_object_local")
 	
 	velocity = update_velocity(velocity, 98.0, delta)
 	rotation = velocity.angle()
@@ -56,7 +56,7 @@ func explode_terrain(pos: Vector2):
 	
 	terrain.cut_of(polygon, pos)
 
-remotesync func destroy_object():
+remotesync func destroy_object_local():
 	queue_free()
 
 static func calculate_velocity(start_pos: Vector2, target_pos: Vector2, energy: float):

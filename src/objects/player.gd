@@ -102,11 +102,11 @@ func update_trajectory():
 func fire():
 	var node_params = Projectile.Parameters.new(calculate_fire_position(), target, FIRE_ENERGY)
 	
-	rpc("spawn_rocket", node_params)
+	rpc("spawn_rocket_local", node_params)
 	
 	emit_signal("Fire")
 
-remotesync func spawn_rocket(params: Projectile.Parameters):
+remotesync func spawn_rocket_local(params: Projectile.Parameters):
 	var node = rocket.instance()
 	
 	var node_params = Projectile.Parameters.new(calculate_fire_position(), target, FIRE_ENERGY)

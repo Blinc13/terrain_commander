@@ -58,20 +58,20 @@ func servet_disconnected():
 
 # General functions
 master func start_game(level_scene_path: String):
-	rpc("load_level", level_scene_path)
+	rpc("load_level_local", level_scene_path)
 	
 	init_players()
 
 master func init_players():
 	assert(BaseNodes.players_manager, "Game not started")
 	
-	# Instance scenes for every player
-	for id in get_tree().get_network_connected_peers():
-		BaseNodes.players_manager.rpc("instance_player", id)
+	var players_id_list = get_tree().get_network_connected_peers()
+	players_id_list.push_back(1) # Add server id
 	
-	# And for server
-	BaseNodes.players_manager.rpc("instance_player", 1)
+	# Instance scenes for every player
+	for id in players_id_list:
+		BaseNodes.players_manager.rpc("instance_player_local", id)
 
-remotesync func load_level(path: String):
+remotesync func load_level_local(path: String):
 	var level = load(path).instance()
 	get_parent().add_child(level)
