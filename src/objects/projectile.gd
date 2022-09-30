@@ -13,7 +13,11 @@ class Parameters:
 		en = energy
 
 
+var explosion_effect = preload("res://scenes/misc/effects/RocketParticles.tscn")
+
+
 onready var terrain = BaseNodes.terrain_manager
+onready var game = BaseNodes.game
 
 var velocity: Vector2
 
@@ -41,8 +45,9 @@ func _physics_process(delta):
 	var colision = move_and_collide(velocity * delta)
 	
 	if colision:
-		explode_terrain(global_position)
+		explode_terrain(global_position, 25)
 		
+		rpc("spawn_effect", global_position, 25)
 		rpc("destroy_object_local")
 	
 	velocity = update_velocity(velocity, 98.0, delta)
@@ -51,10 +56,16 @@ func _physics_process(delta):
 	rset_unreliable("puppet_pos", position)
 	rset_unreliable("puppet_rot", rotation)
 
-func explode_terrain(pos: Vector2):
-	var polygon = PolygonGenerator.generate_circle(25)
+func explode_terrain(pos: Vector2, radius: float):
+	var polygon = PolygonGenerator.generate_circle(radius)
 	
 	terrain.cut_of(polygon, pos)
+
+remotesync func spawn_effect(pos: Vector2, radius: float):
+	var effect = explosion_effect.instance()
+	
+	game.add_child(effect)
+	effect.init(pos, radius)
 
 remotesync func destroy_object_local():
 	queue_free()

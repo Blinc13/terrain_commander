@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://src/objects/rocket_particles.gd" type="Script" id=1]
+
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0, 0.25, 0.488971, 0.654412 )
+colors = PoolColorArray( 0.964844, 0.0450261, 0.0450261, 1, 0.957031, 0.423536, 0.0701823, 1, 0.84375, 0.333545, 0.084375, 1, 0.486328, 0.48415, 0.483086, 1 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+
+[sub_resource type="Curve" id=3]
+_data = [ Vector2( 0, 1 ), 0.0, 2.23485, 0, 0, Vector2( 1, 0 ), 1.78788, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=4]
+curve = SubResource( 3 )
+
+[sub_resource type="ParticlesMaterial" id=5]
+lifetime_randomness = 1.0
+emission_shape = 5
+emission_ring_radius = 36.0
+emission_ring_inner_radius = 0.0
+emission_ring_height = 1.0
+emission_ring_axis = Vector3( 0, 0, 1 )
+flag_disable_z = true
+gravity = Vector3( 0, 0, 0 )
+angular_velocity = -36.22
+angular_velocity_random = 1.0
+orbit_velocity = 0.01
+orbit_velocity_random = 1.0
+scale = 4.0
+scale_curve = SubResource( 4 )
+color_ramp = SubResource( 2 )
+
+[node name="Particles" type="Particles2D"]
+amount = 600
+lifetime = 5.0
+explosiveness = 1.0
+process_material = SubResource( 5 )
+script = ExtResource( 1 )
+
+[node name="QueueFree_timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="QueueFree_timer" to="." method="queue_free"]

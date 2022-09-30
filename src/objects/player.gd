@@ -2,7 +2,7 @@ extends RigidBody2D
 
 signal Fire
 
-var rocket = preload("res://scenes/projectile/Rocket.tscn")
+var rocket = preload("res://scenes/projectiles/Rocket.tscn")
 
 export(float) var BARREL_MOVE_SPEED = 10.0
 export(float) var ACCELERATION = 150.0
