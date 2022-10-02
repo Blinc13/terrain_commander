@@ -9,10 +9,12 @@ signal ConnectionFail
 class Parameters:
 	var ip: String
 	var port: int
+	var max_clients: int
 	
-	func _init(ip: String = "", port = 8080):
+	func _init(ip: String = "", port: int = 8080, max_clients: int = 2):
 		self.ip = ip
 		self.port = port
+		self.max_clients = max_clients
 
 
 var peer: NetworkedMultiplayerPeer
@@ -26,7 +28,7 @@ func init(is_master: bool, params: Parameters):
 		tree.connect("network_peer_connected", self, "client_connected")
 		tree.connect("network_peer_disconnected", self, "client_disconnected")
 		
-		peer.create_server(params.port)
+		peer.create_server(params.port, params.max_clients)
 	else:
 		tree.connect("connected_to_server", self, "connected_to_server")
 		tree.connect("connection_failed", self, "connection_failed")
@@ -38,11 +40,9 @@ func init(is_master: bool, params: Parameters):
 
 # Server funcs
 func client_connected(id):
-	print("Connected: ", id)
 	emit_signal("ClientConnected", id)
 
 func client_disconnected(id):
-	print("Disconnected: ", id)
 	emit_signal("ClientDisconnected", id)
 
 

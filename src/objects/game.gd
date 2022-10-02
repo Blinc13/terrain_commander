@@ -34,7 +34,7 @@ func change_turn():
 		rset("is_move_turn", false)
 		
 		rpc("rpc_signal", "FireTurn")
-		rpc("rpc_signal_with_arg", "CanFire", true) # So far so, then it will be redone for multiplayer
+		rpc("rpc_signal_with_arg", "CanFire", true)
 	else:
 		rset("is_move_turn", true)
 		

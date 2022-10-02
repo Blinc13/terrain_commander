@@ -57,7 +57,7 @@ func _physics_process(delta):
 	rset_unreliable("puppet_rot", rotation)
 
 func explode_terrain(pos: Vector2, radius: float):
-	var polygon = PolygonGenerator.generate_circle(radius)
+	var polygon = PolygonGenerator.generate_circle(radius, 5)
 	
 	terrain.cut_of(polygon, pos)
 
