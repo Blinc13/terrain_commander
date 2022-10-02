@@ -45,9 +45,8 @@ func _physics_process(delta):
 	var colision = move_and_collide(velocity * delta)
 	
 	if colision:
-		explode_terrain(global_position, 25)
+		explode(25, 5)
 		
-		rpc("spawn_effect", global_position, 25)
 		rpc("destroy_object_local")
 	
 	velocity = update_velocity(velocity, 98.0, delta)
@@ -56,10 +55,24 @@ func _physics_process(delta):
 	rset_unreliable("puppet_pos", position)
 	rset_unreliable("puppet_rot", rotation)
 
-func explode_terrain(pos: Vector2, radius: float):
-	var polygon = PolygonGenerator.generate_circle(radius, 5)
+func explode(radius: float, randomness: float):
+	# Generating needed polygons
+	var polygon = PolygonGenerator.generate_circle(radius, randomness)
+	var moved_polygon = PolygonGenerator.move_polygon(polygon, global_position)
 	
-	terrain.cut_of(polygon, pos)
+	# Cuting terrain
+	terrain.cut_of(polygon, global_position)
+	
+	# Collecting info about all objects, affected by explosion(All objects in explosion shape)
+	var shape = terrain.create_shape(moved_polygon) # Reused old code
+	var affected_objects = Misc.get_phys_objects_in_shape(shape, get_world_2d(), 1)
+	
+	# For every object call damage
+	for object_dict in affected_objects:
+		object_dict["collider"].damage()
+	
+	# Spawn explosion effect on all clients
+	rpc("spawn_effect", global_position, radius)
 
 remotesync func spawn_effect(pos: Vector2, radius: float):
 	var effect = explosion_effect.instance()

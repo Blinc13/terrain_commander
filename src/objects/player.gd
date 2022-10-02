@@ -1,6 +1,9 @@
 extends RigidBody2D
 
+class_name Player
+
 signal Fire
+signal Destoyed
 
 var rocket = preload("res://scenes/projectiles/Rocket.tscn")
 
@@ -77,6 +80,9 @@ func _integrate_forces(state):
 			var move_dir = input.rotated(normal.angle() + PI/2)
 			
 			state.apply_impulse(Vector2.DOWN * 5, move_dir * ACCELERATION)
+
+func damage():
+	print_debug("Destroyed") # TODO: Realize damage system
 
 
 

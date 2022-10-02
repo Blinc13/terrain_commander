@@ -14,6 +14,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/objects/game.gd"
 }, {
+"base": "RigidBody2D",
+"class": "Player",
+"language": "GDScript",
+"path": "res://src/objects/player.gd"
+}, {
 "base": "Node",
 "class": "PlayersManager",
 "language": "GDScript",
@@ -36,6 +41,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "Game": "",
+"Player": "",
 "PlayersManager": "",
 "Projectile": "",
 "TerrainFragment": "",
@@ -98,6 +104,7 @@ fire={
 
 [layer_names]
 
+2d_physics/layer_2="Damageable objects"
 2d_physics/layer_10="Terrain"
 
 [physics]
