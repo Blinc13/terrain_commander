@@ -1,17 +1,18 @@
 extends Control
 
-onready var levels_list = $LevelsList
+onready var levels_list = $LevelsList/HBoxContainer/LevelsList
 
 func quit():
 	get_tree().quit(0)
 
-func play():
+func host():
 	init_levels_list()
 	
-	levels_list.show()
+	$Tween.change_places($MainScreen, $LevelsList, 1.6)
+	$Tween.start()
 
 #######################Levels list############################
-onready var embeded_levels = $LevelsList/TabContainer/Embeded
+onready var embeded_levels = $LevelsList/HBoxContainer/LevelsList/TabContainer/Embeded
 #onready var custom_levels = $LevelsList/TabContainer/Custom
 var selected_level_scene_path: String
 
@@ -34,7 +35,8 @@ func embeded_level_selected(index):
 
 #######################Lobby#####################################
 func init_lobby():
-	$Lobby.show()
+	$Tween.change_places($LevelsList, $Lobby, 1.6)
+	$Tween.start()
 
 func server_start():
 	Server.init(true, Server.Parameters.new())

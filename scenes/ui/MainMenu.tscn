@@ -1,107 +1,164 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://assets/fonts/Ubuntu_Mono/UbuntuMono-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://src/ui/main_menu.gd" type="Script" id=2]
+[ext_resource path="res://src/ui/animation.gd" type="Script" id=3]
 
 [sub_resource type="DynamicFont" id=1]
 size = 55
 font_data = ExtResource( 1 )
+
+[sub_resource type="Animation" id=2]
+resource_name = "main_to_levels"
+length = 1.5
+step = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("MainScreen:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1.5 ),
+"transitions": PoolRealArray( 0.129408, 0.129408 ),
+"update": 0,
+"values": [ Vector2( 0, 49 ), Vector2( 3, 737 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("LevelsList/HBoxContainer/LevelsList:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1.5 ),
+"transitions": PoolRealArray( 0.1291, 0.1291 ),
+"update": 0,
+"values": [ Vector2( 283, -554 ), Vector2( 280, 78 ) ]
+}
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 2 )
 
-[node name="Title" type="VBoxContainer" parent="."]
+[node name="MainScreen" type="VBoxContainer" parent="."]
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_top = -251.0
-margin_bottom = 257.0
+margin_top = -300.0
+margin_bottom = 300.0
 alignment = 1
 
-[node name="Label" type="Label" parent="Title"]
+[node name="Label" type="Label" parent="MainScreen"]
 margin_right = 1024.0
 margin_bottom = 56.0
 custom_fonts/font = SubResource( 1 )
 text = "Terrain Commander"
 align = 1
 
-[node name="Separator" type="Control" parent="Title"]
+[node name="Separator" type="Control" parent="MainScreen"]
 margin_top = 60.0
 margin_right = 1024.0
-margin_bottom = 144.0
+margin_bottom = 162.0
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.34
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Title"]
-margin_top = 148.0
+[node name="HBoxContainer" type="HBoxContainer" parent="MainScreen"]
+margin_top = 166.0
 margin_right = 1024.0
-margin_bottom = 397.0
+margin_bottom = 466.0
 size_flags_vertical = 3
 
-[node name="Separator" type="Control" parent="Title/HBoxContainer"]
+[node name="Separator" type="Control" parent="MainScreen/HBoxContainer"]
 margin_right = 349.0
-margin_bottom = 249.0
+margin_bottom = 300.0
 size_flags_horizontal = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Title/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainScreen/HBoxContainer"]
 margin_left = 353.0
 margin_right = 670.0
-margin_bottom = 249.0
+margin_bottom = 300.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.91
 
-[node name="PlayButton" type="Button" parent="Title/HBoxContainer/VBoxContainer"]
+[node name="HostButton" type="Button" parent="MainScreen/HBoxContainer/VBoxContainer"]
 margin_right = 317.0
-margin_bottom = 107.0
+margin_bottom = 81.0
 size_flags_vertical = 3
-text = "Play"
+text = "Host game"
 
-[node name="Separator" type="Control" parent="Title/HBoxContainer/VBoxContainer"]
-margin_top = 111.0
+[node name="Separator" type="Control" parent="MainScreen/HBoxContainer/VBoxContainer"]
+margin_top = 85.0
 margin_right = 317.0
-margin_bottom = 137.0
+margin_bottom = 105.0
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.24
 
-[node name="QuitButton" type="Button" parent="Title/HBoxContainer/VBoxContainer"]
-margin_top = 141.0
+[node name="ConnectButton" type="Button" parent="MainScreen/HBoxContainer/VBoxContainer"]
+margin_top = 109.0
 margin_right = 317.0
-margin_bottom = 249.0
+margin_bottom = 190.0
+size_flags_vertical = 3
+text = "Connect to game"
+
+[node name="Separator2" type="Control" parent="MainScreen/HBoxContainer/VBoxContainer"]
+margin_top = 194.0
+margin_right = 317.0
+margin_bottom = 214.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.24
+
+[node name="QuitButton" type="Button" parent="MainScreen/HBoxContainer/VBoxContainer"]
+margin_top = 218.0
+margin_right = 317.0
+margin_bottom = 300.0
 size_flags_vertical = 3
 text = "Quit"
 
-[node name="Separator2" type="Control" parent="Title/HBoxContainer"]
+[node name="Separator2" type="Control" parent="MainScreen/HBoxContainer"]
 margin_left = 674.0
 margin_right = 1024.0
-margin_bottom = 249.0
+margin_bottom = 300.0
 size_flags_horizontal = 3
 
-[node name="Separator2" type="Control" parent="Title"]
-margin_top = 401.0
+[node name="Separator2" type="Control" parent="MainScreen"]
+margin_top = 470.0
 margin_right = 1024.0
-margin_bottom = 508.0
+margin_bottom = 600.0
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.43
 
-[node name="LevelsList" type="PanelContainer" parent="."]
-visible = false
-anchor_left = 0.271
-anchor_top = 0.155
-anchor_right = 0.727
-anchor_bottom = 0.875
-margin_left = -0.504028
-margin_right = -0.448059
-margin_bottom = -6.10352e-05
+[node name="LevelsList" type="VBoxContainer" parent="."]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_top = -900.0
+margin_bottom = -300.0
 
-[node name="TabContainer" type="TabContainer" parent="LevelsList"]
+[node name="HBoxContainer" type="HBoxContainer" parent="LevelsList"]
+margin_right = 1024.0
+margin_bottom = 600.0
+size_flags_vertical = 3
+
+[node name="Separator" type="Control" parent="LevelsList/HBoxContainer"]
+margin_right = 338.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+
+[node name="LevelsList" type="PanelContainer" parent="LevelsList/HBoxContainer"]
+margin_left = 342.0
+margin_right = 681.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+
+[node name="TabContainer" type="TabContainer" parent="LevelsList/HBoxContainer/LevelsList"]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 460.0
-margin_bottom = 425.0
+margin_right = 332.0
+margin_bottom = 593.0
 
-[node name="Embeded" type="ItemList" parent="LevelsList/TabContainer"]
+[node name="Embeded" type="ItemList" parent="LevelsList/HBoxContainer/LevelsList/TabContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -110,41 +167,62 @@ margin_right = -4.0
 margin_bottom = -4.0
 max_columns = 2
 
-[node name="Custom" type="ItemList" parent="LevelsList/TabContainer"]
+[node name="Custom" type="ItemList" parent="LevelsList/HBoxContainer/LevelsList/TabContainer"]
 visible = false
 margin_right = 40.0
 margin_bottom = 40.0
 
-[node name="Lobby" type="PanelContainer" parent="."]
-visible = false
-anchor_left = 0.255
-anchor_top = 0.1
-anchor_right = 0.744
-anchor_bottom = 0.898
-margin_left = -0.120026
-margin_right = 0.143982
-margin_bottom = 0.199951
+[node name="Separator2" type="Control" parent="LevelsList/HBoxContainer"]
+margin_left = 685.0
+margin_right = 1024.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Lobby"]
+[node name="Lobby" type="VBoxContainer" parent="."]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -1024.0
+margin_top = -300.0
+margin_right = -1024.0
+margin_bottom = 300.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Lobby"]
+margin_right = 1024.0
+margin_bottom = 600.0
+size_flags_vertical = 3
+
+[node name="Separator" type="Control" parent="Lobby/HBoxContainer"]
+margin_right = 338.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+
+[node name="Lobby" type="PanelContainer" parent="Lobby/HBoxContainer"]
+margin_left = 342.0
+margin_right = 681.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Lobby/HBoxContainer/Lobby"]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 494.0
-margin_bottom = 472.0
+margin_right = 332.0
+margin_bottom = 593.0
 
-[node name="StartServer" type="Button" parent="Lobby/VBoxContainer"]
-margin_right = 487.0
-margin_bottom = 230.0
+[node name="StartServer" type="Button" parent="Lobby/HBoxContainer/Lobby/VBoxContainer"]
+margin_right = 325.0
+margin_bottom = 291.0
 size_flags_vertical = 3
 text = "Start server"
 
-[node name="Connect" type="Button" parent="Lobby/VBoxContainer"]
-margin_top = 234.0
-margin_right = 487.0
-margin_bottom = 464.0
+[node name="Connect" type="Button" parent="Lobby/HBoxContainer/Lobby/VBoxContainer"]
+margin_top = 295.0
+margin_right = 325.0
+margin_bottom = 586.0
 size_flags_vertical = 3
 text = "Connect to server"
 
-[node name="StartGame" type="Button" parent="Lobby/VBoxContainer"]
+[node name="StartGame" type="Button" parent="Lobby/HBoxContainer/Lobby/VBoxContainer"]
 visible = false
 margin_top = 312.0
 margin_right = 487.0
@@ -152,9 +230,21 @@ margin_bottom = 464.0
 size_flags_vertical = 3
 text = "Start game"
 
-[connection signal="pressed" from="Title/HBoxContainer/VBoxContainer/PlayButton" to="." method="play"]
-[connection signal="pressed" from="Title/HBoxContainer/VBoxContainer/QuitButton" to="." method="quit"]
-[connection signal="item_activated" from="LevelsList/TabContainer/Embeded" to="." method="embeded_level_selected"]
-[connection signal="pressed" from="Lobby/VBoxContainer/StartServer" to="." method="server_start"]
-[connection signal="pressed" from="Lobby/VBoxContainer/Connect" to="." method="connect_to_server"]
-[connection signal="pressed" from="Lobby/VBoxContainer/StartGame" to="." method="start_game"]
+[node name="Separator2" type="Control" parent="Lobby/HBoxContainer"]
+margin_left = 685.0
+margin_right = 1024.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/main_to_levels = SubResource( 2 )
+
+[node name="Tween" type="Tween" parent="."]
+script = ExtResource( 3 )
+
+[connection signal="pressed" from="MainScreen/HBoxContainer/VBoxContainer/HostButton" to="." method="host"]
+[connection signal="pressed" from="MainScreen/HBoxContainer/VBoxContainer/QuitButton" to="." method="quit"]
+[connection signal="item_activated" from="LevelsList/HBoxContainer/LevelsList/TabContainer/Embeded" to="." method="embeded_level_selected"]
+[connection signal="pressed" from="Lobby/HBoxContainer/Lobby/VBoxContainer/StartServer" to="." method="server_start"]
+[connection signal="pressed" from="Lobby/HBoxContainer/Lobby/VBoxContainer/Connect" to="." method="connect_to_server"]
+[connection signal="pressed" from="Lobby/HBoxContainer/Lobby/VBoxContainer/StartGame" to="." method="start_game"]

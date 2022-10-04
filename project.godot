@@ -38,6 +38,11 @@ _global_script_classes=[ {
 "class": "TerrainManager",
 "language": "GDScript",
 "path": "res://src/objects/terrain_manager.gd"
+}, {
+"base": "Tween",
+"class": "UiAnimations",
+"language": "GDScript",
+"path": "res://src/ui/animation.gd"
 } ]
 _global_script_class_icons={
 "Game": "",
@@ -45,7 +50,8 @@ _global_script_class_icons={
 "PlayersManager": "",
 "Projectile": "",
 "TerrainFragment": "",
-"TerrainManager": ""
+"TerrainManager": "",
+"UiAnimations": ""
 }
 
 [application]
