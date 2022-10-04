@@ -2,7 +2,6 @@ extends Node2D
 
 class_name Game
 
-signal GameStart
 signal MoveTurn
 signal FireTurn
 signal CanFire(boolean)

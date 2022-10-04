@@ -9,7 +9,7 @@ var rocket = preload("res://scenes/projectiles/Rocket.tscn")
 
 export(float) var BARREL_MOVE_SPEED = 10.0
 export(float) var ACCELERATION = 150.0
-export(float) var STABLIZATION = 3
+export(float) var STABLIZATION = 3.0
 export(float) var FIRE_ENERGY = 500.0
 
 onready var barrel: Node2D = $Barrel
@@ -35,7 +35,7 @@ func _input(event):
 	
 		update_trajectory()
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if !is_network_master():
 		position = puppet_pos
 		rotation = puppet_rot
@@ -111,16 +111,15 @@ func update_trajectory():
 
 
 func fire():
-	var node_params = Projectile.Parameters.new(calculate_fire_position(), target, FIRE_ENERGY)
-	
-	rpc("spawn_rocket_local", node_params)
+	rpc("spawn_rocket_local", calculate_fire_position(), target, FIRE_ENERGY)
 	
 	emit_signal("Fire")
+	set_fire(false) # Player can make only one shot
 
-remotesync func spawn_rocket_local(params: Projectile.Parameters):
+remotesync func spawn_rocket_local(start_pos: Vector2, target_pos: Vector2, energy: float):
 	var node = rocket.instance()
 	
-	var node_params = Projectile.Parameters.new(calculate_fire_position(), target, FIRE_ENERGY)
+	var node_params = Projectile.Parameters.new(start_pos, target_pos, energy)
 	node.set_parameters(node_params)
 	
 	node.set_network_master(1) # Server is master of all rockets

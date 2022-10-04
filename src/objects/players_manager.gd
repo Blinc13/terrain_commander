@@ -10,7 +10,14 @@ var puppet_player = preload("res://scenes/units/Player/PuppetPlayer.tscn")
 func _init():
 	BaseNodes.players_manager = self
 	
-	Server.connect("ClientDisconnected", self, "remove_player_slot")
+	Server.connect("ClientDisconnected", self, "client_disconnected")
+
+# Server slot
+func client_disconnected(id: int):
+	if !has_node(str(id)): # Client already killed
+		return
+	
+	remove_player(id)
 
 # Remote funcs
 remotesync func instance_player_local(id: int):
