@@ -12,10 +12,6 @@ func _init():
 	
 	Server.connect("ClientDisconnected", self, "remove_player_slot")
 
-# Slots
-master func remove_player_slot(id: int):
-	rpc("remove_player_local", id)
-
 # Remote funcs
 remotesync func instance_player_local(id: int):
 	var instanced: Node2D
@@ -33,7 +29,24 @@ remotesync func instance_player_local(id: int):
 	add_player(instanced)
 
 remotesync func remove_player_local(id: int):
-	get_node(str(id)).queue_free()
+	var player = get_node(str(id))
+	
+	remove_child(player)
+	player.queue_free()
+
+func get_alive_players_list() -> Array:
+	# TODO: Add exclude to not-player 
+	var array = Array()
+	
+	for player in get_children():
+		array.push_back(int(player.name)) # Because name of player = id, pushing int(str) into array
+	
+	return array
 
 func add_player(player: Node):
 	add_child(player)
+
+func remove_player(id: int):
+	rpc("remove_player_local", id)
+
+# Comment: in output will be errors, because client already send some packets and dont received remove packet

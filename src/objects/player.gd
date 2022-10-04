@@ -81,9 +81,14 @@ func _integrate_forces(state):
 			
 			state.apply_impulse(Vector2.DOWN * 5, move_dir * ACCELERATION)
 
+# Server informs player about his damage by this function
 func damage():
-	print_debug("Destroyed") # TODO: Realize damage system
+	var id = int(name)
+	
+	rpc_id(id, "damage_client") # So far there will only be 1 life
 
+remote func damage_client():
+	emit_signal("Destoyed")
 
 
 func calculate_barrel_angle():
@@ -141,3 +146,5 @@ func _ready():
 	game.connect("FireTurn", self, "set_move", [false])
 	
 	game.connect("CanFire", self, "set_fire")
+	
+	connect("Destoyed", game, "player_destoryed")

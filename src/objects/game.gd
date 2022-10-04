@@ -84,3 +84,20 @@ func _ready():
 		return
 	
 	change_turn()
+
+
+# This method informs server about the this client player destroyed
+func player_destoryed():
+	rpc_id(1, "player_destroyed_rpc")
+
+master func player_destroyed_rpc():
+	var p_manager = BaseNodes.players_manager
+	
+	p_manager.remove_player(get_tree().get_rpc_sender_id()) # Removing player with sender id on all clients
+	var players = p_manager.get_alive_players_list()
+	
+	if players.size() == 1:
+		rpc("receive_winner", players[0]) # Sending clients info about winner
+
+remotesync func receive_winner(id: int):
+	print_debug("Winner is: ", id) # For now, something like this
