@@ -1,5 +1,7 @@
 extends VBoxContainer
 
+# TODO: Remake lobby and this script
+
 var level: String
 
 func set_level(path: String):
@@ -14,6 +16,6 @@ func start_server():
 func connect_to_server():
 	Server.init(false, Server.Parameters.new("127.0.0.1"))
 
-
+# Here should call hide but I'm too lazy
 func start_game():
 	Server.start_game(level)
