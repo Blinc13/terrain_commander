@@ -9,7 +9,5 @@ func change_places(ui_el_f: Control, ui_el_s: Control, time: float):
 	var f_pos = ui_el_f.rect_position
 	var s_pos = ui_el_s.rect_position
 	
-	print(f_pos, " ", s_pos)
-	
 	add_move(ui_el_f, f_pos, s_pos, time)
 	add_move(ui_el_s, s_pos, f_pos, time)

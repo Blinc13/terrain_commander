@@ -14,6 +14,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/objects/game.gd"
 }, {
+"base": "Control",
+"class": "MainMenuRoot",
+"language": "GDScript",
+"path": "res://src/ui/main_menu.gd"
+}, {
 "base": "RigidBody2D",
 "class": "Player",
 "language": "GDScript",
@@ -46,6 +51,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "Game": "",
+"MainMenuRoot": "",
 "Player": "",
 "PlayersManager": "",
 "Projectile": "",

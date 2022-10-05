@@ -1,50 +1,35 @@
 extends Control
 
-onready var levels_list = $LevelsList/HBoxContainer/LevelsList
+class_name MainMenuRoot
 
-func quit():
-	get_tree().quit(0)
-
-func host():
-	init_levels_list()
+class Changes:
+	var ui_el_f: Control
+	var ui_el_s: Control
 	
-	$Tween.change_places($MainScreen, $LevelsList, 1.6)
-	$Tween.start()
+	func _init(ui_el_f: Control, ui_el_s: Control):
+		self.ui_el_f = ui_el_f
+		self.ui_el_s = ui_el_s
 
-#######################Levels list############################
-onready var embeded_levels = $LevelsList/HBoxContainer/LevelsList/TabContainer/Embeded
-#onready var custom_levels = $LevelsList/TabContainer/Custom
-var selected_level_scene_path: String
+const TRANSITION_TIME = 1.6
 
-func init_levels_list():
-	add_embeded_level("Test level", "res://levels/TestLevel.tscn")
+onready var levels = $LevelsList
+onready var lobby = $Lobby
+onready var tween = $Tween
 
+var changes_list = Array()
 
-var embeded_levels_list = Array()
-#var custom_levels_list = Array()
-
-func add_embeded_level(name: String, path: String):
-	embeded_levels.add_item(name)
-	embeded_levels_list.push_back(path)
-
-func embeded_level_selected(index):
-	# This is prototype
-	selected_level_scene_path = embeded_levels_list[index]
-	init_lobby()
+func change_places(changes: Changes):
+	changes_list.push_back(changes)
 	
+	tween.change_places(changes.ui_el_f, changes.ui_el_s, TRANSITION_TIME)
+	tween.start()
 
-#######################Lobby#####################################
-func init_lobby():
-	$Tween.change_places($LevelsList, $Lobby, 1.6)
-	$Tween.start()
+func undo_change_places():
+	var changes = changes_list.pop_back()
+	
+	tween.change_places(changes.ui_el_s, changes.ui_el_f, TRANSITION_TIME)
+	tween.start()
 
-func server_start():
-	Server.init(true, Server.Parameters.new())
-	$Lobby/VBoxContainer/StartGame.show()
 
-func connect_to_server():
-	Server.init(false, Server.Parameters.new("127.0.0.1"))
-
-func start_game():
-	Server.start_game(selected_level_scene_path)
-	hide()
+func level_selected(path):
+	print_debug(path)
