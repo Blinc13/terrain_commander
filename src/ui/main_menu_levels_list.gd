@@ -11,7 +11,7 @@ var custom_levels_path_list = PoolStringArray()
 func _ready():
 	add_embeded_level("TestLevel", "res://levels/TestLevel.tscn")
 
-
+# Funcs
 func add_embeded_level(name: String, path: String):
 	embeded.add_item(name)
 	embeded_levels_path_list.push_back(path)

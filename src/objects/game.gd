@@ -48,7 +48,7 @@ remotesync func rpc_signal(name: String):
 remotesync func rpc_signal_with_arg(name: String, arg):
 	emit_signal(name, arg)
 
-# Debug
+# Debug slots
 func move_handler():
 	print_debug("move turn")
 

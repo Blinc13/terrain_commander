@@ -3,7 +3,7 @@ extends Node
 signal ClientConnected(id)
 signal ClientDisconnected(id)
 
-signal ConnectionSucces(players)
+signal ConnectionSucces
 signal ConnectionFail
 
 class Parameters:
@@ -32,13 +32,13 @@ func init(is_master: bool, params: Parameters):
 	else:
 		tree.connect("connected_to_server", self, "connected_to_server")
 		tree.connect("connection_failed", self, "connection_failed")
-		tree.connect("server_disconnected", self, "server_disconnected")
+		tree.connect("server_disconnected", self, "server_disconnected") # This code dont work, i dont kwon how to handle connection reset from server
 		
 		peer.create_client(params.ip, params.port)
 	
 	tree.network_peer = peer
 
-# Server funcs
+# Server slots
 func client_connected(id):
 	emit_signal("ClientConnected", id)
 
@@ -46,9 +46,9 @@ func client_disconnected(id):
 	emit_signal("ClientDisconnected", id)
 
 
-# Client funcs
+# Client slots
 func connected_to_server():
-	emit_signal("ClientConnected", get_tree().get_network_connected_peers())
+	emit_signal("ConnectionSucces")
 
 func connection_failed():
 	emit_signal("ConnectionFail")
@@ -57,6 +57,9 @@ func servet_disconnected():
 	get_tree().quit(1) # Temporary solution
 
 # General functions
+func close():
+	get_tree().network_peer = null
+
 master func start_game(level_scene_path: String):
 	rpc("load_level_local", level_scene_path)
 	

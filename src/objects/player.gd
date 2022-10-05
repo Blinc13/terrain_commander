@@ -85,7 +85,10 @@ func _integrate_forces(state):
 func damage():
 	var id = int(name)
 	
-	rpc_id(id, "damage_client") # So far there will only be 1 life
+	if id == 1:
+		damage_client()
+	else:
+		rpc_id(id, "damage_client") # So far there will only be 1 life
 
 remote func damage_client():
 	emit_signal("Destoyed")

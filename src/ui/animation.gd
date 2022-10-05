@@ -2,6 +2,7 @@ extends Tween
 
 class_name UiAnimations
 
+# Funcs
 func add_move(ui_el: Control, from: Vector2, to: Vector2, time: float):
 	interpolate_property(ui_el, "rect_position", from, to, time, Tween.TRANS_QUINT, Tween.EASE_IN_OUT)
 

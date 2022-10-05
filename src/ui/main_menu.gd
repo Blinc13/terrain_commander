@@ -12,12 +12,14 @@ class Changes:
 
 const TRANSITION_TIME = 1.6
 
+onready var connection_menu = $Connect
 onready var levels = $LevelsList
 onready var lobby = $Lobby
 onready var tween = $Tween
 
 var changes_list = Array()
 
+# Funcs
 func change_places(changes: Changes):
 	changes_list.push_back(changes)
 	
@@ -31,5 +33,8 @@ func undo_change_places():
 	tween.start()
 
 
+# Slots
 func level_selected(path):
-	print_debug(path)
+	change_places(Changes.new(levels, lobby))
+	
+	lobby.start_server()

@@ -2,6 +2,7 @@ extends VBoxContainer
 
 onready var parrent = get_parent()
 
+# Slots
 func host_game():
 	var changes = MainMenuRoot.Changes.new(self, parrent.levels)
 	
@@ -9,7 +10,7 @@ func host_game():
 
 
 func connect_to_game():
-	var changes = MainMenuRoot.Changes.new(self, parrent.lobby)
+	var changes = MainMenuRoot.Changes.new(self, parrent.connection_menu)
 	
 	parrent.change_places(changes)
 
