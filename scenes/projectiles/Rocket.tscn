@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://src/objects/projectile.gd" type="Script" id=1]
 [ext_resource path="res://assets/textures/projectiles/rocket/rocket.png" type="Texture" id=2]
+[ext_resource path="res://light.png" type="Texture" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 2, 2 )
@@ -16,3 +17,10 @@ texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
+
+[node name="Light2D" type="Light2D" parent="."]
+rotation = 1.5708
+scale = Vector2( 0.2, 0.3 )
+texture = ExtResource( 4 )
+color = Color( 1, 0.392157, 0.027451, 1 )
+energy = 1.2
