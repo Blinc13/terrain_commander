@@ -12,6 +12,8 @@ class Changes:
 
 const TRANSITION_TIME = 1.6
 
+onready var sound_player = $SelectSoundPlayer
+
 onready var connection_menu = $Connect
 onready var levels = $LevelsList
 onready var lobby = $Lobby
@@ -27,6 +29,8 @@ func change_places(change: Changes):
 	if change_complite:
 		change_complite = false
 		
+		sound_player.play(0)
+		
 		tween.change_places(change.ui_el_f, change.ui_el_s, TRANSITION_TIME)
 		tween.start()
 
@@ -38,6 +42,8 @@ func undo_change_places():
 		change_complite = false
 		
 		var change = changes_list.pop_back()
+		
+		sound_player.play(0)
 		
 		tween.change_places(change.ui_el_s, change.ui_el_f, TRANSITION_TIME)
 		tween.start()

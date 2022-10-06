@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://assets/fonts/Ubuntu_Mono/UbuntuMono-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://src/ui/main_menu.gd" type="Script" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://assets/textures/terrain/terrain.png" type="Texture" id=7]
 [ext_resource path="res://icon.png" type="Texture" id=8]
 [ext_resource path="res://src/ui/main_menu_connect_to_server.gd" type="Script" id=9]
+[ext_resource path="res://assets/sounds/ui/select.wav" type="AudioStream" id=10]
 
 [sub_resource type="VisualShaderNodeTexture" id=2]
 texture = ExtResource( 7 )
@@ -405,6 +406,9 @@ size_flags_horizontal = 3
 
 [node name="Tween" type="Tween" parent="."]
 script = ExtResource( 3 )
+
+[node name="SelectSoundPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 10 )
 
 [connection signal="pressed" from="MainScreen/HBoxContainer/VBoxContainer/HostButton" to="MainScreen" method="host_game"]
 [connection signal="pressed" from="MainScreen/HBoxContainer/VBoxContainer/ConnectButton" to="MainScreen" method="connect_to_game"]
