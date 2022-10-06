@@ -4,7 +4,9 @@ class_name Game
 
 signal MoveTurn
 signal FireTurn
+
 signal CanFire(boolean)
+signal GameEnded(winner)
 
 # Duration of turns in seconds
 var move_time: float = 15
@@ -99,4 +101,4 @@ master func player_destroyed_rpc():
 		rpc("receive_winner", players[0]) # Sending clients info about winner
 
 remotesync func receive_winner(id: int):
-	print_debug("Winner is: ", id) # For now, something like this
+	emit_signal("GameEnded", id)

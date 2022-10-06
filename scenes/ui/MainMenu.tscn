@@ -418,3 +418,4 @@ script = ExtResource( 3 )
 [connection signal="pressed" from="Connect/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/BackButton" to="." method="undo_change_places"]
 [connection signal="pressed" from="Lobby/HBoxContainer/VBoxContainer/Lobby/VBoxContainer/BackButton" to="." method="undo_change_places"]
 [connection signal="pressed" from="Lobby/HBoxContainer/VBoxContainer/Lobby/VBoxContainer/BackButton" to="Lobby" method="close_server"]
+[connection signal="tween_all_completed" from="Tween" to="." method="change_completed"]

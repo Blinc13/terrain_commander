@@ -18,19 +18,29 @@ onready var lobby = $Lobby
 onready var tween = $Tween
 
 var changes_list = Array()
+var change_complite: bool = true
 
 # Funcs
-func change_places(changes: Changes):
-	changes_list.push_back(changes)
+func change_places(change: Changes):
+	changes_list.push_back(change)
 	
-	tween.change_places(changes.ui_el_f, changes.ui_el_s, TRANSITION_TIME)
-	tween.start()
+	if change_complite:
+		change_complite = false
+		
+		tween.change_places(change.ui_el_f, change.ui_el_s, TRANSITION_TIME)
+		tween.start()
 
 func undo_change_places():
-	var changes = changes_list.pop_back()
+	if changes_list.size() < 1:
+		return
 	
-	tween.change_places(changes.ui_el_s, changes.ui_el_f, TRANSITION_TIME)
-	tween.start()
+	if change_complite:
+		change_complite = false
+		
+		var change = changes_list.pop_back()
+		
+		tween.change_places(change.ui_el_s, change.ui_el_f, TRANSITION_TIME)
+		tween.start()
 
 
 # Slots
@@ -38,3 +48,6 @@ func level_selected(path):
 	change_places(Changes.new(levels, lobby))
 	
 	lobby.start_server()
+
+func change_completed():
+	change_complite = true

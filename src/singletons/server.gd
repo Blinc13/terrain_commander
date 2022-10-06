@@ -6,6 +6,9 @@ signal ClientDisconnected(id)
 signal ConnectionSucces
 signal ConnectionFail
 
+signal GameStarted
+signal GameEnded
+
 class Parameters:
 	var ip: String
 	var port: int
@@ -56,12 +59,17 @@ func connection_failed():
 func servet_disconnected():
 	get_tree().quit(1) # Temporary solution
 
+# Wrapper for Game.GameEnded
+func game_ended(_winner):
+	emit_signal("GameEnded")
+
 # General functions
 func close():
 	get_tree().network_peer = null
 
 master func start_game(level_scene_path: String):
 	rpc("load_level_local", level_scene_path)
+	rpc("emit_game_started")
 	
 	init_players()
 
@@ -74,6 +82,11 @@ master func init_players():
 	# Instance scenes for every player
 	for id in players_id_list:
 		BaseNodes.players_manager.rpc("instance_player_local", id)
+
+remotesync func emit_game_started():
+	BaseNodes.game.connect("GameEnded", self, "game_ended")
+	
+	emit_signal("GameStarted")
 
 remotesync func load_level_local(path: String):
 	var level = load(path).instance()
