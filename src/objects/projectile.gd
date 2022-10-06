@@ -13,9 +13,9 @@ class Parameters:
 		en = energy
 
 
-var explosion_effect = preload("res://scenes/misc/effects/RocketParticles.tscn")
+var explosion_effect = preload("res://scenes/misc/effects/RocketExplosion.tscn")
 
-
+onready var sound_player = $StartSoundPlayer
 onready var terrain = BaseNodes.terrain_manager
 onready var game = BaseNodes.game
 
@@ -34,6 +34,9 @@ func set_parameters(params: Parameters):
 	velocity = calculate_velocity(start_pos, target, params.en)
 	
 	position = start_pos
+
+func _ready():
+	sound_player.play(0.0) # After adding to scene_tree play sound
 
 func _physics_process(delta):
 	if !is_network_master():
@@ -74,6 +77,7 @@ func explode(radius: float, randomness: float):
 	# Spawn explosion effect on all clients
 	rpc("spawn_effect", global_position, radius)
 
+
 remotesync func spawn_effect(pos: Vector2, radius: float):
 	var effect = explosion_effect.instance()
 	
@@ -83,6 +87,7 @@ remotesync func spawn_effect(pos: Vector2, radius: float):
 remotesync func destroy_object_local():
 	queue_free()
 
+# Static math funcs
 static func calculate_velocity(start_pos: Vector2, target_pos: Vector2, energy: float):
 	var distance = start_pos.x - target_pos.x
 	

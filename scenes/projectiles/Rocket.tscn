@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://src/objects/projectile.gd" type="Script" id=1]
 [ext_resource path="res://assets/textures/projectiles/rocket/rocket.png" type="Texture" id=2]
+[ext_resource path="res://assets/sounds/projectiles/rocket/start.wav" type="AudioStream" id=3]
 [ext_resource path="res://light.png" type="Texture" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -24,3 +25,6 @@ scale = Vector2( 0.2, 0.3 )
 texture = ExtResource( 4 )
 color = Color( 1, 0.392157, 0.027451, 1 )
 energy = 1.2
+
+[node name="StartSoundPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 3 )
