@@ -23,16 +23,20 @@ var changes_list = Array()
 var change_complite: bool = true
 
 # Funcs
+func change_places_unsave(change: Changes):
+	if visible:
+		sound_player.play(0)
+	
+	tween.change_places(change.ui_el_f, change.ui_el_s, TRANSITION_TIME)
+	tween.start()
+
 func change_places(change: Changes):
 	changes_list.push_back(change)
 	
 	if change_complite:
 		change_complite = false
 		
-		sound_player.play(0)
-		
-		tween.change_places(change.ui_el_f, change.ui_el_s, TRANSITION_TIME)
-		tween.start()
+		change_places_unsave(change)
 
 func undo_change_places():
 	if changes_list.size() < 1:
@@ -43,10 +47,7 @@ func undo_change_places():
 		
 		var change = changes_list.pop_back()
 		
-		sound_player.play(0)
-		
-		tween.change_places(change.ui_el_s, change.ui_el_f, TRANSITION_TIME)
-		tween.start()
+		change_places_unsave(change)
 
 
 # Slots
