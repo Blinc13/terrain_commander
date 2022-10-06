@@ -13,6 +13,9 @@ func set_level(path: String):
 func handle_connection(_id):
 	start_game()
 
+func close_server():
+	Server.close()
+
 # Funcs
 func start_server():
 	Server.init(true, Server.Parameters.new())
