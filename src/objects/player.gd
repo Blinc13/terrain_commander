@@ -13,7 +13,8 @@ export(float) var STABLIZATION = 3.0
 export(float) var FIRE_ENERGY = 500.0
 
 onready var barrel: Node2D = $Barrel
-onready var trajectory: Node2D = get_node_or_null("Line2D")
+onready var move_particles: Particles2D = $Particles2D
+onready var trajectory: Line2D = get_node_or_null("Line2D")
 
 var target: Vector2
 var target_angle: float = 0.0
@@ -24,6 +25,9 @@ var can_fire: bool = false setget set_fire
 remote var puppet_pos: Vector2
 remote var puppet_rot: float
 remote var puppet_barrel_rot: float
+
+remotesync var move_particles_emitting: bool = false setget set_move_particles_emitting
+var last_input: Vector2
 
 func _input(event):
 	if !is_network_master():
@@ -48,6 +52,17 @@ func _physics_process(_delta):
 	
 	if can_fire && Input.is_action_just_pressed("fire"):
 		fire()
+	
+	var input = Input.get_vector("left", "right", "up", "down")
+	
+	if input != Vector2.ZERO and last_input == Vector2.ZERO: # Needs to be rewritten, because particles are emitted when the object is not on the floor
+		last_input = input
+		
+		rset("move_particles_emitting", true)
+	elif input == Vector2.ZERO and last_input != Vector2.ZERO:
+		last_input = input
+		
+		rset("move_particles_emitting", false)
 	
 	rset_unreliable("puppet_pos", position)
 	rset_unreliable("puppet_rot", rotation)
@@ -137,6 +152,11 @@ func set_fire(value: bool):
 	can_fire = value
 	
 	trajectory.visible = value
+
+func set_move_particles_emitting(value: bool):
+	move_particles.emitting = value
+	
+	move_particles_emitting = value
 
 func _ready():
 	if !is_network_master():

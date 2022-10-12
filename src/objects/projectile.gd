@@ -16,6 +16,7 @@ class Parameters:
 var explosion_effect = preload("res://scenes/misc/effects/RocketExplosion.tscn")
 
 onready var sound_player = $StartSoundPlayer
+
 onready var terrain = BaseNodes.terrain_manager
 onready var game = BaseNodes.game
 
