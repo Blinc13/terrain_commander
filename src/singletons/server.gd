@@ -59,9 +59,9 @@ func connection_failed():
 func servet_disconnected():
 	get_tree().quit(1) # Temporary solution
 
-# Wrapper for Game.GameEnded
-func game_ended(_winner):
+func game_ended():
 	emit_signal("GameEnded")
+	close()
 
 # General functions
 func close():
@@ -69,9 +69,10 @@ func close():
 
 master func start_game(level_scene_path: String):
 	rpc("load_level_local", level_scene_path)
-	rpc("emit_game_started")
 	
 	init_players()
+	
+	rpc("emit_game_started")
 
 master func init_players():
 	assert(BaseNodes.players_manager, "Game not started")
@@ -84,10 +85,10 @@ master func init_players():
 		BaseNodes.players_manager.rpc("instance_player_local", id)
 
 remotesync func emit_game_started():
-	BaseNodes.game.connect("GameEnded", self, "game_ended")
-	
 	emit_signal("GameStarted")
 
 remotesync func load_level_local(path: String):
 	var level = load(path).instance()
 	get_parent().add_child(level)
+	
+	BaseNodes.game.connect("tree_exiting", self, "game_ended")

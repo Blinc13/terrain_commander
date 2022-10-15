@@ -12,6 +12,8 @@ signal GameEnded(winner)
 var move_time: float = 15
 var fire_time: float = 10
 
+var after_match_time: float = 5.0
+
 remotesync var time: float = 0
 remotesync var is_move_turn: bool = false # In ready will be called change_turn(for less code)
 
@@ -44,12 +46,6 @@ func change_turn():
 	
 	rset("time", 0) # Update time on clients
 
-remotesync func rpc_signal(name: String):
-	emit_signal(name)
-
-remotesync func rpc_signal_with_arg(name: String, arg):
-	emit_signal(name, arg)
-
 # Debug slots
 func move_handler():
 	print_debug("move turn")
@@ -74,31 +70,40 @@ func init_time(move_time: float, fire_time: float):
 	
 	rpc("set_time_on_rpc", move_time, fire_time)
 
-# Init time on rpc
-remotesync func set_time_on_rpc(mt: float, ft: float):
-	move_time = mt
-	fire_time = ft
-
-
 func _ready():
 	if !is_network_master():
 		return
 	
 	change_turn()
 
-
 # This method informs server about the this client player destroyed
 func player_destoryed():
-	rpc_id(1, "player_destroyed_rpc")
+	rpc_id(1, "player_destroyed_master")
 
-master func player_destroyed_rpc():
+master func player_destroyed_master():
 	var p_manager = BaseNodes.players_manager
 	
 	p_manager.remove_player(get_tree().get_rpc_sender_id()) # Removing player with sender id on all clients
 	var players = p_manager.get_alive_players_list()
 	
+	# If only one player remain, he is winner
 	if players.size() == 1:
 		rpc("receive_winner", players[0]) # Sending clients info about winner
+		rpc("instance_del_timer") # temporary solution
+
+remotesync func instance_del_timer():
+	get_tree().create_timer(after_match_time).connect("timeout", self, "queue_free")
 
 remotesync func receive_winner(id: int):
 	emit_signal("GameEnded", id)
+
+remotesync func rpc_signal(name: String):
+	emit_signal(name)
+
+remotesync func rpc_signal_with_arg(name: String, arg):
+	emit_signal(name, arg)
+
+# Init time on rpc
+remotesync func set_time_on_rpc(mt: float, ft: float):
+	move_time = mt
+	fire_time = ft
