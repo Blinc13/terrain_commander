@@ -35,4 +35,8 @@ func time_to_string(time: float) -> String:
 func winner(winner):
 	$VBoxContainer.hide()
 	
+	turn_label.show()
 	turn_label.text = "Winner is " + str(winner)
+	
+	game.disconnect("MoveTurn", self, "turn_event")
+	game.disconnect("FireTurn", self, "turn_event")
