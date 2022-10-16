@@ -4,6 +4,7 @@ class_name Player
 
 signal Fire
 signal Destoyed
+signal Overturned
 
 var rocket = preload("res://scenes/projectiles/Rocket.tscn")
 
@@ -20,6 +21,8 @@ var target_angle: float = 0.0
 
 var can_move: bool = true setget set_move
 var can_fire: bool = false setget set_fire
+
+var is_flipped: bool = false setget set_flipped
 
 remote var puppet_pos: Vector2
 remote var puppet_rot: float
@@ -48,6 +51,13 @@ func _physics_process(_delta):
 	
 	if can_fire && Input.is_action_just_pressed("fire"):
 		fire()
+	
+	var dot = Vector2(cos(rotation), sin(rotation)).dot(Vector2.UP)
+	
+	if abs(dot) > 0.68: # Condition like in _integrate_forces
+		set_flipped(true)
+	else:
+		set_flipped(false)
 	
 	rset_unreliable("puppet_pos", position)
 	rset_unreliable("puppet_rot", rotation)
@@ -79,7 +89,7 @@ func _integrate_forces(state):
 		if abs(angle.dot(normal)) < 0.69:
 			var move_dir = input.rotated(normal.angle() + PI/2)
 			
-			state.apply_impulse(Vector2.DOWN * 5, move_dir * ACCELERATION)
+			state.apply_impulse(Vector2.DOWN * 5, move_dir * ACCELERATION) 
 
 # Server informs player about his damage by this function
 func damage():
@@ -137,6 +147,13 @@ func set_fire(value: bool):
 	can_fire = value
 	
 	trajectory.visible = value
+
+func set_flipped(value: bool):
+	if is_flipped and !value:
+		emit_signal("Overturned")
+	
+	is_flipped = value
+
 
 func _ready():
 	if !is_network_master():
