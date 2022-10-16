@@ -20,20 +20,19 @@ func client_disconnected(id: int):
 	remove_player(id)
 
 # Remote funcs
-remotesync func instance_player_local(id: int):
-	var instanced: Node2D
+remotesync func instance_player_local(id: int, position: Vector2):
+	var instance: Node2D
 	
 	if id == get_tree().get_network_unique_id():
-		instanced = master_player.instance()
+		instance = master_player.instance()
 	else:
-		instanced = puppet_player.instance()
+		instance = puppet_player.instance()
 	
-	instanced.set_network_master(id)
-	instanced.name = str(id)
+	instance.set_network_master(id)
+	instance.name = str(id)
+	instance.position = position
 	
-	instanced.position = spawn_points[ randi() % spawn_points.size() ]
-	
-	add_player(instanced)
+	add_child(instance)
 
 remotesync func remove_player_local(id: int):
 	var player = get_node(str(id))
@@ -50,8 +49,10 @@ func get_alive_players_list() -> Array:
 	
 	return array
 
-func add_player(player: Node):
-	add_child(player)
+func add_player(id: int):
+	var position = spawn_points[ randi() % spawn_points.size() ]
+	
+	rpc("instance_player_local", id, position)
 
 func remove_player(id: int):
 	rpc("remove_player_local", id)

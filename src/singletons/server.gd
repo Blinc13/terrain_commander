@@ -82,7 +82,7 @@ master func init_players():
 	
 	# Instance scenes for every player
 	for id in players_id_list:
-		BaseNodes.players_manager.rpc("instance_player_local", id)
+		BaseNodes.players_manager.add_player(id)
 
 remotesync func emit_game_started():
 	emit_signal("GameStarted")
@@ -91,4 +91,4 @@ remotesync func load_level_local(path: String):
 	var level = load(path).instance()
 	get_parent().add_child(level)
 	
-	BaseNodes.game.connect("tree_exiting", self, "game_ended")
+	BaseNodes.game.connect("tree_exiting", self, "game_ended") # Need to be moved

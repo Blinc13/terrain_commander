@@ -52,8 +52,3 @@ margin_bottom = 0.199997
 custom_fonts/font = SubResource( 1 )
 align = 1
 valign = 1
-
-[node name="HideTimer" type="Timer" parent="."]
-one_shot = true
-
-[connection signal="timeout" from="HideTimer" to="." method="handle_timer"]
