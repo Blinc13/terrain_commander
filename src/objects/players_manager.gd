@@ -21,7 +21,7 @@ func client_disconnected(id: int):
 
 # Remote funcs
 remotesync func instance_player_local(id: int, position: Vector2):
-	var instance: Node2D
+	var instance: Player
 	
 	if id == get_tree().get_network_unique_id():
 		instance = master_player.instance()

@@ -52,6 +52,11 @@ func _physics_process(_delta):
 	if can_fire && Input.is_action_just_pressed("fire"):
 		fire()
 	
+	if Input.is_action_just_pressed("flip") and is_flipped:
+		set_flipped(false)
+		
+		rotation = 0
+	
 	var dot = Vector2(cos(rotation), sin(rotation)).dot(Vector2.UP)
 	
 	if abs(dot) > 0.68: # Condition like in _integrate_forces
@@ -89,7 +94,7 @@ func _integrate_forces(state):
 		if abs(angle.dot(normal)) < 0.69:
 			var move_dir = input.rotated(normal.angle() + PI/2)
 			
-			state.apply_impulse(Vector2.DOWN * 5, move_dir * ACCELERATION) 
+			state.apply_impulse(Vector2.DOWN * 5, move_dir * ACCELERATION)
 
 # Server informs player about his damage by this function
 func damage():
@@ -148,16 +153,20 @@ func set_fire(value: bool):
 	
 	trajectory.visible = value
 
+var last_flipped_state: bool = false
 func set_flipped(value: bool):
-	if is_flipped and !value:
+	if value != last_flipped_state:
 		emit_signal("Overturned")
-	
-	is_flipped = value
+		
+		last_flipped_state = is_flipped
+		is_flipped = value
 
 
 func _ready():
 	if !is_network_master():
 		return
+	
+	BaseNodes.player = self
 	
 	var game = BaseNodes.game
 	
