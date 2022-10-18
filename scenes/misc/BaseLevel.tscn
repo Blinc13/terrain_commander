@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://src/objects/terrain_manager.gd" type="Script" id=1]
 [ext_resource path="res://src/objects/game.gd" type="Script" id=2]
@@ -6,11 +6,17 @@
 [ext_resource path="res://assets/textures/terrain/background.png" type="Texture" id=4]
 [ext_resource path="res://src/objects/players_manager.gd" type="Script" id=5]
 [ext_resource path="res://scenes/ui/InGame.tscn" type="PackedScene" id=6]
+[ext_resource path="res://src/objects/background.gd" type="Script" id=7]
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 2 )
 
-[node name="BackGround" type="Polygon2D" parent="."]
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+script = ExtResource( 7 )
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+
+[node name="BackGround" type="Polygon2D" parent="ParallaxBackground/ParallaxLayer"]
 modulate = Color( 0.494118, 0.494118, 0.494118, 1 )
 material = ExtResource( 3 )
 z_index = -5
